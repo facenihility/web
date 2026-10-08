@@ -1,0 +1,120 @@
+# 工业智算网 · 通算协同调度仿真 批量实验结果
+# 模型: 服务端优化版：流体排队修正 + 通算权衡（降采样换带宽） (v2)
+# 协议: 子步长 2.00ms / 每场景 120000ms 仿真时间 / 固定种子 20261006 / 双轨同任务流
+# 说明: 「AI」= AI 通算协同调度, 「基线」= 静态规则映射 + 等权均分带宽
+
+===== normal =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI   :  1318   121.4   409    0.0    25      85  35.8688    291|786|241     2 11/13
+基线   :  1318   135.4   399    0.0    25      85  35.8177    291|810|217     2 11/12
+节点 AI: local:291 edgeA:392 edgeB:394 cloud:241   链路: field:85 access:26 backhaul:0
+节点 基: local:291 edgeA:405 edgeB:405 cloud:217   链路: field:85 access:26 backhaul:0
+  vision AI n= 373 时延     98 超时  0% {"edgeA":183,"edgeB":190}
+       基 n= 373 时延    145 超时  0% {"edgeA":174,"edgeB":199}
+  robot  AI n= 291 时延      9 超时  0% {"local":291}
+       基 n= 291 时延      9 超时  0% {"local":291}
+  agv    AI n= 256 时延     94 超时  0% {"edgeB":115,"edgeA":117,"cloud":24}
+       基 n= 256 时延     98 超时  0% {"edgeB":113,"edgeA":143}
+  llm    AI n= 217 时延    349 超时  0% {"cloud":217}
+       基 n= 217 时延    348 超时  0% {"cloud":217}
+  maint  AI n= 181 时延    116 超时  0% {"edgeB":89,"edgeA":92}
+       基 n= 181 时延    117 超时  0% {"edgeB":93,"edgeA":88}
+积压轨迹: 0 2 2 1 1 2 1 2 2 1 2 3
+通算权衡: 374 个任务降采样上传，省下 2965.8 MB 现场总线流量，代价是额外 42.07 TFLOP 算力（用算力换带宽）
+
+===== vision =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI   :  2158   110.7   281    0.0    25      85  19.2111    255|1641|262     2 18/17
+基线   :  2156   280.6   734   51.5     0     100  19.1475    254|1714|188     4 18/20
+节点 AI: local:255 edgeA:829 edgeB:812 cloud:262   链路: field:85 access:26 backhaul:0
+节点 基: local:254 edgeA:857 edgeB:857 cloud:188   链路: field:100 access:30 backhaul:0
+  vision AI n=1219 时延     98 超时  0% {"edgeA":618,"edgeB":561,"cloud":40}
+       基 n=1217 时延    369 超时 78% {"edgeA":609,"edgeB":608}
+  robot  AI n= 254 时延      9 超时  0% {"local":253,"edgeB":1}
+       基 n= 254 时延     11 超时  0% {"local":254}
+  agv    AI n= 235 时延     94 超时  0% {"edgeA":104,"edgeB":110,"cloud":21}
+       基 n= 235 时延    142 超时 70% {"edgeA":115,"edgeB":120}
+  llm    AI n= 188 时延    343 超时  0% {"cloud":188}
+       基 n= 188 时延    388 超时  0% {"cloud":188}
+  maint  AI n= 262 时延    116 超时  0% {"edgeB":140,"edgeA":107,"cloud":13,"local":2}
+       基 n= 262 时延    178 超时  0% {"edgeB":129,"edgeA":133}
+积压轨迹: 0 2 3 1 2 2 2 2 1 2 4 3
+通算权衡: 1221 个任务降采样上传，省下 9682.5 MB 现场总线流量，代价是额外 137.36 TFLOP 算力（用算力换带宽）
+
+===== agv =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI   :  3116   123.1   333    0.3    75      85  22.3067    366|1888|862     4 26/25
+基线   :  3115   181.9   425   43.7    50     100  21.5689    327|2481|307     5 26/28
+节点 AI: local:366 edgeA:942 edgeB:946 cloud:862   链路: field:85 access:26 backhaul:41
+节点 基: local:327 edgeA:1241 edgeB:1240 cloud:307   链路: field:100 access:30 backhaul:0
+  vision AI n= 474 时延    100 超时  0% {"edgeA":210,"edgeB":207,"cloud":57}
+       基 n= 473 时延    239 超时 68% {"edgeA":254,"edgeB":219}
+  robot  AI n= 327 时延      9 超时  0% {"local":287,"edgeB":22,"edgeA":18}
+       基 n= 327 时延      9 超时  0% {"local":327}
+  agv    AI n=1645 时延     92 超时  1% {"edgeB":578,"cloud":484,"edgeA":583}
+       基 n=1645 时延    145 超时 63% {"edgeB":829,"edgeA":816}
+  llm    AI n= 307 时延    410 超时  0% {"cloud":307}
+       基 n= 307 时延    414 超时  1% {"cloud":307}
+  maint  AI n= 363 时延    153 超时  0% {"edgeA":131,"edgeB":139,"local":79,"cloud":14}
+       基 n= 363 时延    231 超时  0% {"edgeB":192,"edgeA":171}
+积压轨迹: 0 2 5 5 2 5 4 2 5 3 1 5
+通算权衡: 475 个任务降采样上传，省下 3766.7 MB 现场总线流量，代价是额外 53.44 TFLOP 算力（用算力换带宽）
+
+===== llm =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI   :  1199   577.4  1851   18.6     0      85 100.0423    286|348|565     1 10/10
+基线   :  1194  1148.4  3527   35.8    50      85 104.6162    179|438|577     6 10/11
+节点 AI: local:286 edgeA:181 edgeB:167 cloud:565   链路: field:85 access:26 backhaul:41
+节点 基: local:179 edgeA:219 edgeB:219 cloud:577   链路: field:85 access:26 backhaul:41
+  vision AI n= 161 时延    127 超时  6% {"edgeA":63,"edgeB":56,"local":40,"cloud":2}
+       基 n= 160 时延    140 超时  0% {"edgeA":81,"edgeB":79}
+  robot  AI n= 179 时延      9 超时  0% {"local":178,"edgeA":1}
+       基 n= 179 时延      9 超时  0% {"local":179}
+  agv    AI n= 148 时延    135 超时 31% {"edgeB":48,"edgeA":53,"local":37,"cloud":10}
+       基 n= 148 时延     96 超时  0% {"edgeB":73,"edgeA":75}
+  llm    AI n= 581 时延   1078 超时 29% {"cloud":552,"edgeB":15,"edgeA":14}
+       基 n= 577 时延   2284 超时 74% {"cloud":577}
+  maint  AI n= 130 时延    186 超时  0% {"edgeA":50,"edgeB":48,"local":31,"cloud":1}
+       基 n= 130 时延    116 超时  0% {"edgeA":63,"edgeB":67}
+积压轨迹: 0 4 6 11 6 12 6 8 5 8 3 4
+通算权衡: 121 个任务降采样上传，省下 959.5 MB 现场总线流量，代价是额外 13.61 TFLOP 算力（用算力换带宽）
+
+===== degrade =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI   :  2158   159.1   471    1.1    25      85  37.9721    409|1327|422     2 18/19
+基线   :  2157   191.6   509   13.4    50      85  38.1178    404|1375|378     3 18/18
+节点 AI: local:409 edgeA:633 edgeB:694 cloud:422   链路: field:85 access:26 backhaul:0
+节点 基: local:404 edgeA:688 edgeB:687 cloud:378   链路: field:85 access:26 backhaul:0
+  vision AI n= 652 时延     99 超时  0% {"edgeA":299,"edgeB":339,"cloud":11,"local":3}
+       基 n= 651 时延    189 超时 28% {"edgeA":331,"edgeB":320}
+  robot  AI n= 404 时延      9 超时  0% {"local":399,"edgeB":5}
+       基 n= 404 时延      9 超时  0% {"local":404}
+  agv    AI n= 417 时延     96 超时  3% {"edgeB":205,"cloud":32,"edgeA":179,"local":1}
+       基 n= 417 时延    109 超时 22% {"edgeB":216,"edgeA":201}
+  llm    AI n= 378 时延    523 超时  3% {"cloud":376,"edgeA":2}
+       基 n= 378 时延    533 超时  4% {"cloud":378}
+  maint  AI n= 307 时延    120 超时  0% {"edgeB":145,"edgeA":153,"local":6,"cloud":3}
+       基 n= 307 时延    130 超时  0% {"edgeB":151,"edgeA":156}
+积压轨迹: 0 2 2 4 3 3 2 2 2 2 3 2
+通算权衡: 650 个任务降采样上传，省下 5154.5 MB 现场总线流量，代价是额外 73.12 TFLOP 算力（用算力换带宽）
+
+===== stress =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI   :  2874   170.0   533    3.4    50      85  31.5276    520|1732|622     6 24/18
+基线   :  2861   736.0  3734   61.7    25     100  31.6079    481|1965|415    19 24/16
+节点 AI: local:520 edgeA:817 edgeB:915 cloud:622   链路: field:85 access:24 backhaul:0
+节点 基: local:481 edgeA:983 edgeB:982 cloud:415   链路: field:100 access:28 backhaul:7
+  vision AI n= 993 时延    113 超时  3% {"edgeA":419,"edgeB":469,"cloud":86,"local":19}
+       基 n= 983 时延   1471 超时 97% {"edgeA":490,"edgeB":493}
+  robot  AI n= 481 时延      9 超时  0% {"local":442,"edgeA":22,"edgeB":17}
+       基 n= 481 时延     18 超时 37% {"local":481}
+  agv    AI n= 592 时延    104 超时  7% {"edgeB":236,"edgeA":241,"cloud":106,"local":9}
+       基 n= 592 时延    254 超时 88% {"edgeB":290,"edgeA":302}
+  llm    AI n= 417 时延    605 超时  7% {"cloud":412,"edgeB":2,"edgeA":3}
+       基 n= 415 时延    867 超时 25% {"cloud":415}
+  maint  AI n= 391 时延    151 超时  0% {"edgeB":191,"edgeA":132,"local":50,"cloud":18}
+       基 n= 390 时延    360 超时  1% {"edgeB":199,"edgeA":191}
+积压轨迹: 0 9 5 4 6 7 2 4 4 3 2 2
+通算权衡: 977 个任务降采样上传，省下 7747.6 MB 现场总线流量，代价是额外 109.91 TFLOP 算力（用算力换带宽）
+
+DONE

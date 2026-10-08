@@ -1,0 +1,26 @@
+=== 渲染路径冒烟 ===
+  OK   reset
+  OK   step+draw(normal)
+  OK   updateUI(normal)
+  OK   drawChart
+  OK   scene=vision
+  OK   scene=agv
+  OK   scene=llm
+  OK   scene=degrade
+  OK   scene=stress
+  OK   frame()
+  OK   视图切到基线
+  OK   基线视图-log占位
+  OK   切换回AI视图
+  OK   sizeTopo/sizeCharts
+
+=== 关键 DOM 是否被写入 ===
+  #kpi      (未创建)
+  #cmp      htmlLen=1688
+  #nodes    htmlLen=2799
+  #links    htmlLen=628
+  #log      htmlLen=608
+  #tbody    htmlLen=0
+  #topo     htmlLen=0
+
+全部通过

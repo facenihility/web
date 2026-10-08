@@ -1,0 +1,1062 @@
+{
+ "id": "20261008-104514",
+ "label": "场景矩阵",
+ "model": "v2",
+ "modelName": "服务端优化版：流体排队修正 + 通算权衡（降采样换带宽）",
+ "createdAt": "2026-10-08 10:45:14",
+ "protocol": {
+  "dtMs": 2.0,
+  "durationMs": 120000.0,
+  "seed": 20261006,
+  "scenes": [
+   "normal",
+   "vision",
+   "agv",
+   "llm",
+   "degrade",
+   "stress"
+  ],
+  "model": "v2"
+ },
+ "elapsedSec": 22.5,
+ "scenes": [
+  {
+   "scene": "normal",
+   "sceneLabel": "常规混线生产",
+   "rate": 11,
+   "ai": {
+    "n": 1318,
+    "t": 120000.0,
+    "avgLat": 121.69939301972683,
+    "p95": 409.0,
+    "missRate": 0.0,
+    "throughput": 13.0,
+    "gpu": 25.0,
+    "peakBw": 85.00000000000001,
+    "queue": 2,
+    "queuedTransfer": 1,
+    "queuedCompute": 1,
+    "energyPerTask": 35.790341103945615,
+    "carriedRate": 77.92109256449166,
+    "compressed": 374,
+    "compressSavedMB": 2965.8199999999865,
+    "compressExtraTFLOP": 42.07499999999989,
+    "workTotal": 5584.177500000062,
+    "bytesTotal": 2739.409999999979,
+    "dist": {
+     "local": 291,
+     "edge": 810,
+     "cloud": 217
+    }
+   },
+   "bl": {
+    "n": 1318,
+    "t": 120000.0,
+    "avgLat": 135.38072837632743,
+    "p95": 399.0,
+    "missRate": 0.0,
+    "throughput": 12.0,
+    "gpu": 25.0,
+    "peakBw": 85.00000000000001,
+    "queue": 2,
+    "queuedTransfer": 1,
+    "queuedCompute": 1,
+    "energyPerTask": 35.81771471927201,
+    "carriedRate": 77.92109256449166,
+    "compressed": 0,
+    "compressSavedMB": 0.0,
+    "compressExtraTFLOP": 0.0,
+    "workTotal": 5542.215000000023,
+    "bytesTotal": 5697.299999999954,
+    "dist": {
+     "local": 291,
+     "edge": 810,
+     "cloud": 217
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -10.11,
+     "better": true
+    },
+    "p95": {
+     "pct": 2.51,
+     "better": false
+    },
+    "missRate": null,
+    "energyPerTask": {
+     "pct": -0.08,
+     "better": true
+    },
+    "throughput": {
+     "pct": 8.33,
+     "better": true
+    },
+    "gpu": {
+     "pct": 0.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 291
+    },
+    {
+     "id": "edgeA",
+     "done": 406
+    },
+    {
+     "id": "edgeB",
+     "done": 404
+    },
+    {
+     "id": "cloud",
+     "done": 217
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "vision": {
+     "n": 373,
+     "lat": 36554.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 169,
+      "edgeB": 204
+     }
+    },
+    "llm": {
+     "n": 217,
+     "lat": 75713.0,
+     "miss": 0,
+     "node": {
+      "cloud": 217
+     }
+    },
+    "agv": {
+     "n": 256,
+     "lat": 24576.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 115,
+      "edgeA": 141
+     }
+    },
+    "maint": {
+     "n": 181,
+     "lat": 20996.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 85,
+      "edgeA": 96
+     }
+    },
+    "robot": {
+     "n": 291,
+     "lat": 2560.8000000000034,
+     "miss": 0,
+     "node": {
+      "local": 291
+     }
+    }
+   },
+   "compress": {
+    "count": 374,
+    "savedMB": 2965.82,
+    "extraTFLOP": 42.075
+   }
+  },
+  {
+   "scene": "vision",
+   "sceneLabel": "视觉质检高峰",
+   "rate": 18,
+   "ai": {
+    "n": 2158,
+    "t": 120000.0,
+    "avgLat": 110.95282669138048,
+    "p95": 281.0,
+    "missRate": 0.0,
+    "throughput": 17.0,
+    "gpu": 25.0,
+    "peakBw": 85.00000000000001,
+    "queue": 2,
+    "queuedTransfer": 1,
+    "queuedCompute": 1,
+    "energyPerTask": 19.111182043559023,
+    "carriedRate": 88.22984244670991,
+    "compressed": 1221,
+    "compressSavedMB": 9682.530000000168,
+    "compressExtraTFLOP": 137.36249999999868,
+    "workTotal": 5232.397500000131,
+    "bytesTotal": 6382.930000000186,
+    "dist": {
+     "local": 254,
+     "edge": 1697,
+     "cloud": 207
+    }
+   },
+   "bl": {
+    "n": 2156,
+    "t": 120000.0,
+    "avgLat": 280.5543599257885,
+    "p95": 734.0,
+    "missRate": 51.53061224489795,
+    "throughput": 20.0,
+    "gpu": 0.0,
+    "peakBw": 100.0,
+    "queue": 4,
+    "queuedTransfer": 4,
+    "queuedCompute": 0,
+    "energyPerTask": 19.14746730055699,
+    "carriedRate": 88.21892393320965,
+    "compressed": 0,
+    "compressSavedMB": 0.0,
+    "compressExtraTFLOP": 0.0,
+    "workTotal": 5094.760000000013,
+    "bytesTotal": 16025.200000000503,
+    "dist": {
+     "local": 254,
+     "edge": 1714,
+     "cloud": 188
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -60.45,
+     "better": true
+    },
+    "p95": {
+     "pct": -61.72,
+     "better": true
+    },
+    "missRate": null,
+    "energyPerTask": {
+     "pct": -0.19,
+     "better": true
+    },
+    "throughput": {
+     "pct": -15.0,
+     "better": false
+    },
+    "gpu": null,
+    "peakBw": {
+     "pct": -15.0,
+     "better": true
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 254
+    },
+    {
+     "id": "edgeA",
+     "done": 850
+    },
+    {
+     "id": "edgeB",
+     "done": 847
+    },
+    {
+     "id": "cloud",
+     "done": 207
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "robot": {
+     "n": 254,
+     "lat": 2235.1999999999966,
+     "miss": 0,
+     "node": {
+      "local": 254
+     }
+    },
+    "vision": {
+     "n": 1219,
+     "lat": 119575.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 594,
+      "edgeB": 620,
+      "cloud": 5
+     }
+    },
+    "llm": {
+     "n": 188,
+     "lat": 64550.0,
+     "miss": 0,
+     "node": {
+      "cloud": 188
+     }
+    },
+    "agv": {
+     "n": 235,
+     "lat": 22298.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 119,
+      "edgeB": 102,
+      "cloud": 14
+     }
+    },
+    "maint": {
+     "n": 262,
+     "lat": 30778.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 125,
+      "edgeA": 137
+     }
+    }
+   },
+   "compress": {
+    "count": 1221,
+    "savedMB": 9682.53,
+    "extraTFLOP": 137.362
+   }
+  },
+  {
+   "scene": "agv",
+   "sceneLabel": "AGV 潮汐调度",
+   "rate": 26,
+   "ai": {
+    "n": 3116,
+    "t": 120000.0,
+    "avgLat": 122.91803594351666,
+    "p95": 333.0,
+    "missRate": 1.1553273427471118,
+    "throughput": 26.0,
+    "gpu": 50.0,
+    "peakBw": 85.00000000000001,
+    "queue": 4,
+    "queuedTransfer": 1,
+    "queuedCompute": 3,
+    "energyPerTask": 22.101914521822728,
+    "carriedRate": 89.50577663671375,
+    "compressed": 475,
+    "compressSavedMB": 3766.74999999997,
+    "compressExtraTFLOP": 53.4374999999996,
+    "workTotal": 8585.03000000016,
+    "bytesTotal": 5348.279999999898,
+    "dist": {
+     "local": 327,
+     "edge": 2072,
+     "cloud": 717
+    }
+   },
+   "bl": {
+    "n": 3115,
+    "t": 120000.0,
+    "avgLat": 181.86857142857102,
+    "p95": 425.0,
+    "missRate": 43.69181380417336,
+    "throughput": 28.0,
+    "gpu": 50.0,
+    "peakBw": 100.0,
+    "queue": 5,
+    "queuedTransfer": 2,
+    "queuedCompute": 3,
+    "energyPerTask": 21.568889566613297,
+    "carriedRate": 89.5024077046549,
+    "compressed": 0,
+    "compressSavedMB": 0.0,
+    "compressExtraTFLOP": 0.0,
+    "workTotal": 8531.455000000109,
+    "bytesTotal": 9094.899999999998,
+    "dist": {
+     "local": 327,
+     "edge": 2481,
+     "cloud": 307
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -32.41,
+     "better": true
+    },
+    "p95": {
+     "pct": -21.65,
+     "better": true
+    },
+    "missRate": {
+     "pct": -97.36,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": 2.47,
+     "better": false
+    },
+    "throughput": {
+     "pct": -7.14,
+     "better": false
+    },
+    "gpu": {
+     "pct": 0.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": -15.0,
+     "better": true
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 327
+    },
+    {
+     "id": "edgeA",
+     "done": 1033
+    },
+    {
+     "id": "edgeB",
+     "done": 1039
+    },
+    {
+     "id": "cloud",
+     "done": 717
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.408
+    }
+   ],
+   "types": {
+    "vision": {
+     "n": 474,
+     "lat": 47978.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 217,
+      "edgeB": 215,
+      "cloud": 42
+     }
+    },
+    "agv": {
+     "n": 1645,
+     "lat": 156246.0,
+     "miss": 36,
+     "node": {
+      "edgeB": 642,
+      "cloud": 368,
+      "edgeA": 635
+     }
+    },
+    "llm": {
+     "n": 307,
+     "lat": 125633.0,
+     "miss": 0,
+     "node": {
+      "cloud": 307
+     }
+    },
+    "robot": {
+     "n": 327,
+     "lat": 2873.6000000000095,
+     "miss": 0,
+     "node": {
+      "local": 322,
+      "edgeB": 3,
+      "edgeA": 2
+     }
+    },
+    "maint": {
+     "n": 363,
+     "lat": 50282.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 179,
+      "edgeB": 179,
+      "local": 5
+     }
+    }
+   },
+   "compress": {
+    "count": 475,
+    "savedMB": 3766.75,
+    "extraTFLOP": 53.437
+   }
+  },
+  {
+   "scene": "llm",
+   "sceneLabel": "大模型突发推理",
+   "rate": 10,
+   "ai": {
+    "n": 1199,
+    "t": 120000.0,
+    "avgLat": 588.058048373646,
+    "p95": 1863.0,
+    "missRate": 20.600500417014178,
+    "throughput": 10.0,
+    "gpu": 0.0,
+    "peakBw": 85.00000000000001,
+    "queue": 1,
+    "queuedTransfer": 1,
+    "queuedCompute": 0,
+    "energyPerTask": 100.24387760633789,
+    "carriedRate": 75.6463719766472,
+    "compressed": 117,
+    "compressSavedMB": 927.8099999999978,
+    "compressExtraTFLOP": 13.162500000000023,
+    "workTotal": 14152.097499999983,
+    "bytesTotal": 2834.2900000000072,
+    "dist": {
+     "local": 292,
+     "edge": 333,
+     "cloud": 574
+    }
+   },
+   "bl": {
+    "n": 1194,
+    "t": 120000.0,
+    "avgLat": 1148.4005025125668,
+    "p95": 3527.0,
+    "missRate": 35.845896147403685,
+    "throughput": 11.0,
+    "gpu": 50.0,
+    "peakBw": 85.00000000000001,
+    "queue": 6,
+    "queuedTransfer": 1,
+    "queuedCompute": 5,
+    "energyPerTask": 104.61621314907838,
+    "carriedRate": 85.00837520938023,
+    "compressed": 0,
+    "compressSavedMB": 0.0,
+    "compressExtraTFLOP": 0.0,
+    "workTotal": 14042.685000000012,
+    "bytesTotal": 3740.2999999999984,
+    "dist": {
+     "local": 179,
+     "edge": 438,
+     "cloud": 577
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -48.79,
+     "better": true
+    },
+    "p95": {
+     "pct": -47.18,
+     "better": true
+    },
+    "missRate": {
+     "pct": -42.53,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": -4.18,
+     "better": true
+    },
+    "throughput": {
+     "pct": -9.09,
+     "better": false
+    },
+    "gpu": null,
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 292
+    },
+    {
+     "id": "edgeA",
+     "done": 169
+    },
+    {
+     "id": "edgeB",
+     "done": 164
+    },
+    {
+     "id": "cloud",
+     "done": 574
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.408
+    }
+   ],
+   "types": {
+    "vision": {
+     "n": 161,
+     "lat": 20906.199999999986,
+     "miss": 10,
+     "node": {
+      "edgeA": 61,
+      "edgeB": 53,
+      "local": 44,
+      "cloud": 3
+     }
+    },
+    "llm": {
+     "n": 581,
+     "lat": 639455.0,
+     "miss": 190,
+     "node": {
+      "cloud": 553,
+      "edgeA": 14,
+      "edgeB": 14
+     }
+    },
+    "maint": {
+     "n": 130,
+     "lat": 22983.19999999999,
+     "miss": 0,
+     "node": {
+      "edgeA": 51,
+      "edgeB": 44,
+      "local": 29,
+      "cloud": 6
+     }
+    },
+    "robot": {
+     "n": 179,
+     "lat": 1575.199999999995,
+     "miss": 0,
+     "node": {
+      "local": 179
+     }
+    },
+    "agv": {
+     "n": 148,
+     "lat": 20161.99999999999,
+     "miss": 47,
+     "node": {
+      "edgeB": 53,
+      "edgeA": 43,
+      "cloud": 12,
+      "local": 40
+     }
+    }
+   },
+   "compress": {
+    "count": 117,
+    "savedMB": 927.81,
+    "extraTFLOP": 13.163
+   }
+  },
+  {
+   "scene": "degrade",
+   "sceneLabel": "回传网络降级",
+   "rate": 18,
+   "ai": {
+    "n": 2158,
+    "t": 120000.0,
+    "avgLat": 159.0059314179783,
+    "p95": 471.0,
+    "missRate": 1.1121408711770158,
+    "throughput": 19.0,
+    "gpu": 24.999999999999996,
+    "peakBw": 85.00000000000001,
+    "queue": 2,
+    "queuedTransfer": 1,
+    "queuedCompute": 1,
+    "energyPerTask": 37.95932504633852,
+    "carriedRate": 81.18628359592215,
+    "compressed": 650,
+    "compressSavedMB": 5154.500000000002,
+    "compressExtraTFLOP": 73.1249999999991,
+    "workTotal": 9706.772500000066,
+    "bytesTotal": 4747.029999999995,
+    "dist": {
+     "local": 406,
+     "edge": 1336,
+     "cloud": 416
+    }
+   },
+   "bl": {
+    "n": 2157,
+    "t": 120000.0,
+    "avgLat": 191.57774687065225,
+    "p95": 509.0,
+    "missRate": 13.351877607788595,
+    "throughput": 18.0,
+    "gpu": 50.0,
+    "peakBw": 85.00000000000001,
+    "queue": 3,
+    "queuedTransfer": 1,
+    "queuedCompute": 2,
+    "energyPerTask": 38.117794853964185,
+    "carriedRate": 81.27028280018544,
+    "compressed": 0,
+    "compressSavedMB": 0.0,
+    "compressExtraTFLOP": 0.0,
+    "workTotal": 9633.510000000082,
+    "bytesTotal": 9881.40000000009,
+    "dist": {
+     "local": 404,
+     "edge": 1375,
+     "cloud": 378
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -17.0,
+     "better": true
+    },
+    "p95": {
+     "pct": -7.47,
+     "better": true
+    },
+    "missRate": {
+     "pct": -91.67,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": -0.42,
+     "better": true
+    },
+    "throughput": {
+     "pct": 5.56,
+     "better": true
+    },
+    "gpu": {
+     "pct": -50.0,
+     "better": true
+    },
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 406
+    },
+    {
+     "id": "edgeA",
+     "done": 635
+    },
+    {
+     "id": "edgeB",
+     "done": 701
+    },
+    {
+     "id": "cloud",
+     "done": 416
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "vision": {
+     "n": 652,
+     "lat": 64859.4,
+     "miss": 2,
+     "node": {
+      "edgeA": 309,
+      "edgeB": 331,
+      "local": 3,
+      "cloud": 9
+     }
+    },
+    "agv": {
+     "n": 417,
+     "lat": 40081.8,
+     "miss": 11,
+     "node": {
+      "edgeB": 203,
+      "cloud": 31,
+      "edgeA": 182,
+      "local": 1
+     }
+    },
+    "llm": {
+     "n": 378,
+     "lat": 198110.0,
+     "miss": 11,
+     "node": {
+      "cloud": 376,
+      "edgeA": 2
+     }
+    },
+    "maint": {
+     "n": 307,
+     "lat": 36530.8,
+     "miss": 0,
+     "node": {
+      "edgeB": 164,
+      "edgeA": 142,
+      "local": 1
+     }
+    },
+    "robot": {
+     "n": 404,
+     "lat": 3552.8000000000234,
+     "miss": 0,
+     "node": {
+      "local": 401,
+      "edgeB": 3
+     }
+    }
+   },
+   "compress": {
+    "count": 650,
+    "savedMB": 5154.5,
+    "extraTFLOP": 73.125
+   }
+  },
+  {
+   "scene": "stress",
+   "sceneLabel": "极限压力测试",
+   "rate": 24,
+   "ai": {
+    "n": 2874,
+    "t": 120000.0,
+    "avgLat": 169.70104384133472,
+    "p95": 533.0,
+    "missRate": 3.479471120389701,
+    "throughput": 19.0,
+    "gpu": 50.0,
+    "peakBw": 85.0,
+    "queue": 6,
+    "queuedTransfer": 1,
+    "queuedCompute": 5,
+    "energyPerTask": 31.511454227556207,
+    "carriedRate": 82.21990257480863,
+    "compressed": 974,
+    "compressSavedMB": 7723.820000000096,
+    "compressExtraTFLOP": 109.57499999999818,
+    "workTotal": 10903.639999999956,
+    "bytesTotal": 6775.680000000143,
+    "dist": {
+     "local": 511,
+     "edge": 1751,
+     "cloud": 612
+    }
+   },
+   "bl": {
+    "n": 2861,
+    "t": 120000.0,
+    "avgLat": 735.9747640685102,
+    "p95": 3734.0,
+    "missRate": 61.69171618315274,
+    "throughput": 16.0,
+    "gpu": 25.0,
+    "peakBw": 100,
+    "queue": 19,
+    "queuedTransfer": 15,
+    "queuedCompute": 4,
+    "energyPerTask": 31.60793358965417,
+    "carriedRate": 83.18769660957706,
+    "compressed": 0,
+    "compressSavedMB": 0.0,
+    "compressExtraTFLOP": 0.0,
+    "workTotal": 10742.965000000067,
+    "bytesTotal": 14371.100000000488,
+    "dist": {
+     "local": 481,
+     "edge": 1965,
+     "cloud": 415
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -76.94,
+     "better": true
+    },
+    "p95": {
+     "pct": -85.73,
+     "better": true
+    },
+    "missRate": {
+     "pct": -94.36,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": -0.31,
+     "better": true
+    },
+    "throughput": {
+     "pct": 18.75,
+     "better": true
+    },
+    "gpu": {
+     "pct": 100.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": -15.0,
+     "better": true
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 511
+    },
+    {
+     "id": "edgeA",
+     "done": 892
+    },
+    {
+     "id": "edgeB",
+     "done": 859
+    },
+    {
+     "id": "cloud",
+     "done": 612
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.2408
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "vision": {
+     "n": 993,
+     "lat": 112818.80000000003,
+     "miss": 32,
+     "node": {
+      "edgeA": 455,
+      "edgeB": 443,
+      "cloud": 74,
+      "local": 21
+     }
+    },
+    "agv": {
+     "n": 592,
+     "lat": 61055.600000000006,
+     "miss": 39,
+     "node": {
+      "edgeB": 236,
+      "edgeA": 233,
+      "cloud": 116,
+      "local": 7
+     }
+    },
+    "llm": {
+     "n": 417,
+     "lat": 252212.0,
+     "miss": 29,
+     "node": {
+      "cloud": 412,
+      "edgeA": 2,
+      "edgeB": 3
+     }
+    },
+    "maint": {
+     "n": 391,
+     "lat": 57403.6,
+     "miss": 0,
+     "node": {
+      "edgeB": 169,
+      "edgeA": 200,
+      "local": 12,
+      "cloud": 10
+     }
+    },
+    "robot": {
+     "n": 481,
+     "lat": 4230.8000000000375,
+     "miss": 0,
+     "node": {
+      "local": 471,
+      "edgeB": 8,
+      "edgeA": 2
+     }
+    }
+   },
+   "compress": {
+    "count": 974,
+    "savedMB": 7723.82,
+    "extraTFLOP": 109.575
+   }
+  }
+ ],
+ "summary": {
+  "avgPct": {
+   "avgLat": -40.95,
+   "p95": -36.87,
+   "missRate": -81.48,
+   "energyPerTask": -0.45
+  },
+  "wins": {
+   "avgLat": 6,
+   "p95": 5,
+   "missRate": 4,
+   "energyPerTask": 5
+  },
+  "totalScenes": 6
+ },
+ "report": "# 工业智算网 · 通算协同调度仿真 批量实验结果\n# 模型: 服务端优化版：流体排队修正 + 通算权衡（降采样换带宽） (v2)\n# 协议: 子步长 2.00ms / 每场景 120000ms 仿真时间 / 固定种子 20261006 / 双轨同任务流\n# 说明: 「AI」= AI 通算协同调度, 「基线」= 静态规则映射 + 等权均分带宽\n\n===== normal =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  1318   121.7   409    0.0    25      85  35.7903    291|810|217     2 11/13\n基线   :  1318   135.4   399    0.0    25      85  35.8177    291|810|217     2 11/12\n节点 AI: local:291 edgeA:406 edgeB:404 cloud:217   链路: field:85 access:26 backhaul:0\n节点 基: local:291 edgeA:405 edgeB:405 cloud:217   链路: field:85 access:26 backhaul:0\n  vision AI n= 373 时延     98 超时  0% {\"edgeA\":169,\"edgeB\":204}\n       基 n= 373 时延    145 超时  0% {\"edgeA\":174,\"edgeB\":199}\n  robot  AI n= 291 时延      9 超时  0% {\"local\":291}\n       基 n= 291 时延      9 超时  0% {\"local\":291}\n  agv    AI n= 256 时延     96 超时  0% {\"edgeB\":115,\"edgeA\":141}\n       基 n= 256 时延     98 超时  0% {\"edgeB\":113,\"edgeA\":143}\n  llm    AI n= 217 时延    349 超时  0% {\"cloud\":217}\n       基 n= 217 时延    348 超时  0% {\"cloud\":217}\n  maint  AI n= 181 时延    116 超时  0% {\"edgeB\":85,\"edgeA\":96}\n       基 n= 181 时延    117 超时  0% {\"edgeB\":93,\"edgeA\":88}\n积压轨迹: 0 2 2 1 1 2 1 2 2 1 2 3\n通算权衡: 374 个任务降采样上传，省下 2965.8 MB 现场总线流量，代价是额外 42.07 TFLOP 算力（用算力换带宽）\n\n===== vision =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  2158   111.0   281    0.0    25      85  19.1112    254|1697|207     2 18/17\n基线   :  2156   280.6   734   51.5     0     100  19.1475    254|1714|188     4 18/20\n节点 AI: local:254 edgeA:850 edgeB:847 cloud:207   链路: field:85 access:26 backhaul:0\n节点 基: local:254 edgeA:857 edgeB:857 cloud:188   链路: field:100 access:30 backhaul:0\n  vision AI n=1219 时延     98 超时  0% {\"edgeA\":594,\"edgeB\":620,\"cloud\":5}\n       基 n=1217 时延    369 超时 78% {\"edgeA\":609,\"edgeB\":608}\n  robot  AI n= 254 时延      9 超时  0% {\"local\":254}\n       基 n= 254 时延     11 超时  0% {\"local\":254}\n  agv    AI n= 235 时延     95 超时  0% {\"edgeA\":119,\"edgeB\":102,\"cloud\":14}\n       基 n= 235 时延    142 超时 70% {\"edgeA\":115,\"edgeB\":120}\n  llm    AI n= 188 时延    343 超时  0% {\"cloud\":188}\n       基 n= 188 时延    388 超时  0% {\"cloud\":188}\n  maint  AI n= 262 时延    117 超时  0% {\"edgeB\":125,\"edgeA\":137}\n       基 n= 262 时延    178 超时  0% {\"edgeB\":129,\"edgeA\":133}\n积压轨迹: 0 2 3 1 2 2 2 2 2 2 4 3\n通算权衡: 1221 个任务降采样上传，省下 9682.5 MB 现场总线流量，代价是额外 137.36 TFLOP 算力（用算力换带宽）\n\n===== agv =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  3116   122.9   333    1.2    50      85  22.1019    327|2072|717     4 26/26\n基线   :  3115   181.9   425   43.7    50     100  21.5689    327|2481|307     5 26/28\n节点 AI: local:327 edgeA:1033 edgeB:1039 cloud:717   链路: field:85 access:26 backhaul:41\n节点 基: local:327 edgeA:1241 edgeB:1240 cloud:307   链路: field:100 access:30 backhaul:0\n  vision AI n= 474 时延    101 超时  0% {\"edgeA\":217,\"edgeB\":215,\"cloud\":42}\n       基 n= 473 时延    239 超时 68% {\"edgeA\":254,\"edgeB\":219}\n  robot  AI n= 327 时延      9 超时  0% {\"local\":322,\"edgeB\":3,\"edgeA\":2}\n       基 n= 327 时延      9 超时  0% {\"local\":327}\n  agv    AI n=1645 时延     95 超时  2% {\"edgeB\":642,\"cloud\":368,\"edgeA\":635}\n       基 n=1645 时延    145 超时 63% {\"edgeB\":829,\"edgeA\":816}\n  llm    AI n= 307 时延    409 超时  0% {\"cloud\":307}\n       基 n= 307 时延    414 超时  1% {\"cloud\":307}\n  maint  AI n= 363 时延    139 超时  0% {\"edgeA\":179,\"edgeB\":179,\"local\":5}\n       基 n= 363 时延    231 超时  0% {\"edgeB\":192,\"edgeA\":171}\n积压轨迹: 0 2 5 5 2 5 3 2 5 3 2 5\n通算权衡: 475 个任务降采样上传，省下 3766.7 MB 现场总线流量，代价是额外 53.44 TFLOP 算力（用算力换带宽）\n\n===== llm =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  1199   588.1  1863   20.6     0      85 100.2439    292|333|574     1 10/10\n基线   :  1194  1148.4  3527   35.8    50      85 104.6162    179|438|577     6 10/11\n节点 AI: local:292 edgeA:169 edgeB:164 cloud:574   链路: field:85 access:26 backhaul:41\n节点 基: local:179 edgeA:219 edgeB:219 cloud:577   链路: field:85 access:26 backhaul:41\n  vision AI n= 161 时延    130 超时  6% {\"edgeA\":61,\"edgeB\":53,\"local\":44,\"cloud\":3}\n       基 n= 160 时延    140 超时  0% {\"edgeA\":81,\"edgeB\":79}\n  robot  AI n= 179 时延      9 超时  0% {\"local\":179}\n       基 n= 179 时延      9 超时  0% {\"local\":179}\n  agv    AI n= 148 时延    136 超时 32% {\"edgeB\":53,\"edgeA\":43,\"cloud\":12,\"local\":40}\n       基 n= 148 时延     96 超时  0% {\"edgeB\":73,\"edgeA\":75}\n  llm    AI n= 581 时延   1101 超时 33% {\"cloud\":553,\"edgeA\":14,\"edgeB\":14}\n       基 n= 577 时延   2284 超时 74% {\"cloud\":577}\n  maint  AI n= 130 时延    177 超时  0% {\"edgeA\":51,\"edgeB\":44,\"local\":29,\"cloud\":6}\n       基 n= 130 时延    116 超时  0% {\"edgeA\":63,\"edgeB\":67}\n积压轨迹: 0 3 6 11 6 11 7 9 5 8 3 4\n通算权衡: 117 个任务降采样上传，省下 927.8 MB 现场总线流量，代价是额外 13.16 TFLOP 算力（用算力换带宽）\n\n===== degrade =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  2158   159.0   471    1.1    25      85  37.9593    406|1336|416     2 18/19\n基线   :  2157   191.6   509   13.4    50      85  38.1178    404|1375|378     3 18/18\n节点 AI: local:406 edgeA:635 edgeB:701 cloud:416   链路: field:85 access:26 backhaul:0\n节点 基: local:404 edgeA:688 edgeB:687 cloud:378   链路: field:85 access:26 backhaul:0\n  vision AI n= 652 时延     99 超时  0% {\"edgeA\":309,\"edgeB\":331,\"local\":3,\"cloud\":9}\n       基 n= 651 时延    189 超时 28% {\"edgeA\":331,\"edgeB\":320}\n  robot  AI n= 404 时延      9 超时  0% {\"local\":401,\"edgeB\":3}\n       基 n= 404 时延      9 超时  0% {\"local\":404}\n  agv    AI n= 417 时延     96 超时  3% {\"edgeB\":203,\"cloud\":31,\"edgeA\":182,\"local\":1}\n       基 n= 417 时延    109 超时 22% {\"edgeB\":216,\"edgeA\":201}\n  llm    AI n= 378 时延    524 超时  3% {\"cloud\":376,\"edgeA\":2}\n       基 n= 378 时延    533 超时  4% {\"cloud\":378}\n  maint  AI n= 307 时延    119 超时  0% {\"edgeB\":164,\"edgeA\":142,\"local\":1}\n       基 n= 307 时延    130 超时  0% {\"edgeB\":151,\"edgeA\":156}\n积压轨迹: 0 2 2 4 3 3 2 2 2 2 3 2\n通算权衡: 650 个任务降采样上传，省下 5154.5 MB 现场总线流量，代价是额外 73.12 TFLOP 算力（用算力换带宽）\n\n===== stress =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  2874   169.7   533    3.5    50      85  31.5115    511|1751|612     6 24/19\n基线   :  2861   736.0  3734   61.7    25     100  31.6079    481|1965|415    19 24/16\n节点 AI: local:511 edgeA:892 edgeB:859 cloud:612   链路: field:85 access:24 backhaul:0\n节点 基: local:481 edgeA:983 edgeB:982 cloud:415   链路: field:100 access:28 backhaul:7\n  vision AI n= 993 时延    114 超时  3% {\"edgeA\":455,\"edgeB\":443,\"cloud\":74,\"local\":21}\n       基 n= 983 时延   1471 超时 97% {\"edgeA\":490,\"edgeB\":493}\n  robot  AI n= 481 时延      9 超时  0% {\"local\":471,\"edgeB\":8,\"edgeA\":2}\n       基 n= 481 时延     18 超时 37% {\"local\":481}\n  agv    AI n= 592 时延    103 超时  7% {\"edgeB\":236,\"edgeA\":233,\"cloud\":116,\"local\":7}\n       基 n= 592 时延    254 超时 88% {\"edgeB\":290,\"edgeA\":302}\n  llm    AI n= 417 时延    605 超时  7% {\"cloud\":412,\"edgeA\":2,\"edgeB\":3}\n       基 n= 415 时延    867 超时 25% {\"cloud\":415}\n  maint  AI n= 391 时延    147 超时  0% {\"edgeB\":169,\"edgeA\":200,\"local\":12,\"cloud\":10}\n       基 n= 390 时延    360 超时  1% {\"edgeB\":199,\"edgeA\":191}\n积压轨迹: 0 10 5 4 6 7 5 4 4 3 3 3\n通算权衡: 974 个任务降采样上传，省下 7723.8 MB 现场总线流量，代价是额外 109.57 TFLOP 算力（用算力换带宽）\n\nDONE\n"
+}

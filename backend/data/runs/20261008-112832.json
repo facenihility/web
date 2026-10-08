@@ -1,0 +1,196 @@
+{
+ "id": "20261008-112832",
+ "label": "场景矩阵",
+ "model": "v2",
+ "modelName": "服务端优化版：流体排队修正 + 通算权衡（降采样换带宽）",
+ "createdAt": "2026-10-08 11:28:32",
+ "protocol": {
+  "dtMs": 2.0,
+  "durationMs": 6000.0,
+  "seed": 20261006,
+  "scenes": [
+   "normal"
+  ],
+  "model": "v2"
+ },
+ "elapsedSec": 0.16,
+ "scenes": [
+  {
+   "scene": "normal",
+   "sceneLabel": "常规混线生产",
+   "rate": 11,
+   "ai": {
+    "n": 64,
+    "t": 6000.0,
+    "avgLat": 114.83750000000003,
+    "p95": 389.0,
+    "missRate": 0.0,
+    "throughput": 11.0,
+    "gpu": 25.0,
+    "peakBw": 85.00000000000001,
+    "queue": 2,
+    "queuedTransfer": 1,
+    "queuedCompute": 1,
+    "energyPerTask": 27.243375781250016,
+    "carriedRate": 81.25,
+    "compressed": 23,
+    "compressSavedMB": 182.3900000000001,
+    "compressExtraTFLOP": 2.5874999999999995,
+    "workTotal": 212.45499999999998,
+    "bytesTotal": 145.93999999999997,
+    "dist": {
+     "local": 12,
+     "edge": 44,
+     "cloud": 8
+    }
+   },
+   "bl": {
+    "n": 64,
+    "t": 6000.0,
+    "avgLat": 131.65000000000003,
+    "p95": 389.0,
+    "missRate": 0.0,
+    "throughput": 12.0,
+    "gpu": 0.0,
+    "peakBw": 100.0,
+    "queue": 2,
+    "queuedTransfer": 2,
+    "queuedCompute": 0,
+    "energyPerTask": 27.27662499999999,
+    "carriedRate": 81.25,
+    "compressed": 0,
+    "compressSavedMB": 0.0,
+    "compressExtraTFLOP": 0.0,
+    "workTotal": 209.9799999999999,
+    "bytesTotal": 320.3999999999998,
+    "dist": {
+     "local": 12,
+     "edge": 44,
+     "cloud": 8
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -12.77,
+     "better": true
+    },
+    "p95": {
+     "pct": 0.0,
+     "better": false
+    },
+    "missRate": null,
+    "energyPerTask": {
+     "pct": -0.12,
+     "better": true
+    },
+    "throughput": {
+     "pct": -8.33,
+     "better": false
+    },
+    "gpu": null,
+    "peakBw": {
+     "pct": -15.0,
+     "better": true
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 12
+    },
+    {
+     "id": "edgeA",
+     "done": 22
+    },
+    {
+     "id": "edgeB",
+     "done": 22
+    },
+    {
+     "id": "cloud",
+     "done": 8
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "vision": {
+     "n": 22,
+     "lat": 2156.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 9,
+      "edgeB": 13
+     }
+    },
+    "llm": {
+     "n": 8,
+     "lat": 2716.0,
+     "miss": 0,
+     "node": {
+      "cloud": 8
+     }
+    },
+    "agv": {
+     "n": 9,
+     "lat": 864.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 5,
+      "edgeA": 4
+     }
+    },
+    "maint": {
+     "n": 13,
+     "lat": 1508.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 4,
+      "edgeA": 9
+     }
+    },
+    "robot": {
+     "n": 12,
+     "lat": 105.59999999999998,
+     "miss": 0,
+     "node": {
+      "local": 12
+     }
+    }
+   },
+   "compress": {
+    "count": 23,
+    "savedMB": 182.39,
+    "extraTFLOP": 2.587
+   }
+  }
+ ],
+ "summary": {
+  "avgPct": {
+   "avgLat": -12.77,
+   "p95": 0.0,
+   "missRate": null,
+   "energyPerTask": -0.12
+  },
+  "wins": {
+   "avgLat": 1,
+   "p95": 0,
+   "missRate": 0,
+   "energyPerTask": 1
+  },
+  "totalScenes": 1
+ },
+ "report": "# 工业智算网 · 通算协同调度仿真 批量实验结果\n# 模型: 服务端优化版：流体排队修正 + 通算权衡（降采样换带宽） (v2)\n# 协议: 子步长 2.00ms / 每场景 6000ms 仿真时间 / 固定种子 20261006 / 双轨同任务流\n# 说明: 「AI」= AI 通算协同调度, 「基线」= 静态规则映射 + 等权均分带宽\n\n===== normal =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :    64   114.8   389    0.0    25      85  27.2434     12|44|8     2 11/11\n基线   :    64   131.7   389    0.0     0     100  27.2766     12|44|8     2 11/12\n节点 AI: local:12 edgeA:22 edgeB:22 cloud:8   链路: field:85 access:26 backhaul:0\n节点 基: local:12 edgeA:22 edgeB:22 cloud:8   链路: field:100 access:30 backhaul:0\n  vision AI n=  22 时延     98 超时  0% {\"edgeA\":9,\"edgeB\":13}\n       基 n=  22 时延    146 超时  0% {\"edgeA\":9,\"edgeB\":13}\n  robot  AI n=  12 时延      9 超时  0% {\"local\":12}\n       基 n=  12 时延      9 超时  0% {\"local\":12}\n  agv    AI n=   9 时延     96 超时  0% {\"edgeB\":5,\"edgeA\":4}\n       基 n=   9 时延     99 超时  0% {\"edgeB\":5,\"edgeA\":4}\n  llm    AI n=   8 时延    340 超时  0% {\"cloud\":8}\n       基 n=   8 时延    338 超时  0% {\"cloud\":8}\n  maint  AI n=  13 时延    116 超时  0% {\"edgeB\":4,\"edgeA\":9}\n       基 n=  13 时延    116 超时  0% {\"edgeB\":4,\"edgeA\":9}\n积压轨迹: 0\n通算权衡: 23 个任务降采样上传，省下 182.4 MB 现场总线流量，代价是额外 2.59 TFLOP 算力（用算力换带宽）\n\nDONE\n"
+}

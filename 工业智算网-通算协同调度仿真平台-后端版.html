@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工业智算网 · 面向智能制造的 AI 通算协同调度平台</title>
+<style>
+:root{
+  --bg:#EDF1F8; --card:#FFFFFF; --line:#E1E7F1; --line2:#EEF2F8;
+  --text:#16202F; --muted:#6C7C93; --muted2:#93A1B5;
+  --blue:#0B63F6; --cyan:#0891B2; --purple:#7C3AED; --amber:#E08A00; --red:#DC2626; --green:#12A150;
+  --shadow:0 1px 2px rgba(16,32,64,.05),0 8px 20px rgba(16,32,64,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:"Segoe UI","Microsoft YaHei","PingFang SC",system-ui,-apple-system,sans-serif;
+  font-size:13px; line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"Cascadia Mono","Consolas","SF Mono",monospace;font-variant-numeric:tabular-nums}
+
+header{
+  background:linear-gradient(100deg,#0A2A5E 0%,#0B63F6 58%,#0891B2 100%);
+  color:#fff; padding:12px 18px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:320px}
+.logo{
+  width:34px;height:34px;border-radius:9px;flex:none;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
+  display:grid;place-items:center;font-weight:700;font-size:14px;letter-spacing:-.5px;
+}
+.brand h1{font-size:15.5px;font-weight:650;letter-spacing:.3px}
+.brand p{font-size:11.5px;opacity:.82;margin-top:1px}
+.ctrls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-left:auto}
+.ctrl{display:flex;align-items:center;gap:7px;font-size:12px}
+.ctrl label{opacity:.85;white-space:nowrap}
+select{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);color:#fff;
+  border-radius:7px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;cursor:pointer;
+}
+select option{color:#16202F;background:#fff}
+input[type=range]{width:100px;height:3px;cursor:pointer;accent-color:#fff}
+.rv{min-width:40px;text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.btn{
+  border:1px solid rgba(255,255,255,.34);background:rgba(255,255,255,.14);color:#fff;
+  border-radius:7px;padding:5px 12px;font-size:12px;font-family:inherit;cursor:pointer;transition:.15s;
+}
+.btn:hover{background:rgba(255,255,255,.26)}
+.btn.on{background:#fff;color:#0A2A5E;font-weight:650;border-color:#fff}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:4px 11px;font-size:11.5px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.25);animation:bp 1.6s infinite}
+@keyframes bp{0%,100%{opacity:1}50%{opacity:.35}}
+
+.shell{display:grid;grid-template-columns:minmax(0,1fr) 402px;gap:13px;padding:13px;align-items:start}
+.col{display:flex;flex-direction:column;gap:13px;min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.card>h2{
+  font-size:12.5px;font-weight:650;padding:9px 13px;border-bottom:1px solid var(--line2);
+  display:flex;align-items:center;gap:8px;color:#25324A;
+}
+.card>h2 .tag{margin-left:auto;font-size:10.5px;font-weight:500;color:var(--muted2);letter-spacing:.3px}
+.card>h2::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--blue)}
+.card.p>h2::before{background:var(--purple)}
+.card.c>h2::before{background:var(--cyan)}
+.card.g>h2::before{background:var(--green)}
+.body{padding:11px 13px}
+
+#topo{display:block;width:100%;height:auto}
+.legend{
+  display:flex;gap:14px;flex-wrap:wrap;padding:8px 13px 11px;border-top:1px solid var(--line2);
+  font-size:11px;color:var(--muted);align-items:center;
+}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2.5px;margin-right:5px;vertical-align:-1px}
+
+.charts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.charts .card .body{padding:8px 10px}
+canvas.chart{display:block;width:100%;height:112px}
+
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2)}
+.kpi{background:#fff;padding:9px 12px}
+.kpi .k{font-size:10.5px;color:var(--muted);letter-spacing:.2px}
+.kpi .v{font-size:19px;font-weight:660;letter-spacing:-.4px;margin-top:1px;font-variant-numeric:tabular-nums}
+.kpi .u{font-size:10.5px;font-weight:500;color:var(--muted2);margin-left:3px}
+.kpi .d{font-size:10.5px;margin-top:1px;font-variant-numeric:tabular-nums}
+.up{color:var(--green)}.down{color:var(--red)}.dim{color:var(--muted2)}
+
+.cmp{padding:11px 13px;display:flex;flex-direction:column;gap:11px}
+.crow .cl{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px;color:#33415A}
+.crow .cl b{font-variant-numeric:tabular-nums}
+.track{height:9px;border-radius:5px;background:#F0F3F9;overflow:hidden;margin-bottom:3px}
+.track>span{display:block;height:100%;border-radius:5px;transition:width .35s ease}
+.tk-ai>span{background:linear-gradient(90deg,#0B63F6,#0891B2)}
+.tk-bl>span{background:linear-gradient(90deg,#C7D0DE,#93A1B5)}
+.crow .cm{font-size:10px;color:var(--muted2);display:flex;justify-content:space-between;margin-top:2px}
+
+.nodes{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:11px 13px}
+.node{border:1px solid var(--line);border-radius:9px;padding:8px 9px;background:#FCFDFF}
+.node .nh{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;margin-bottom:5px}
+.node .nh .sq{width:8px;height:8px;border-radius:2px;flex:none}
+.node .nh em{margin-left:auto;font-style:normal;font-size:10px;color:var(--muted2);font-weight:500}
+.gpu{display:flex;gap:2px;margin:5px 0 4px}
+.gpu i{flex:1;height:11px;border-radius:2px;background:#EDF1F8;transition:background .25s}
+.nmeta{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:3px;background:#EDF1F8;overflow:hidden;margin-top:4px}
+.bar>span{display:block;height:100%;border-radius:3px;transition:width .3s,background .3s}
+
+.links{padding:11px 13px;display:flex;flex-direction:column;gap:10px}
+.lk .lh{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:1px}
+.lk .lh span{color:var(--muted);font-size:10.5px}
+
+.tbl{max-height:250px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{
+  position:sticky;top:0;background:#F8FAFD;color:var(--muted);font-weight:600;font-size:10.5px;
+  text-align:left;padding:6px 9px;border-bottom:1px solid var(--line);letter-spacing:.2px;z-index:1;
+}
+td{padding:5px 9px;border-bottom:1px solid var(--line2);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;padding:1px 7px;border-radius:20px;font-weight:600}
+.chip i{width:6px;height:6px;border-radius:50%}
+.st-ok{color:var(--green)}.st-miss{color:var(--red)}
+
+#log{max-height:240px;overflow-y:auto;padding:9px 13px;display:flex;flex-direction:column;gap:6px}
+.lgi{font-size:11px;line-height:1.45;border-left:2px solid var(--line);padding:2px 0 2px 8px;color:#3A4A63}
+.lgi b{color:#16202F;font-weight:650}
+.lgi .why{color:var(--muted2);font-size:10.5px;display:block;margin-top:1px}
+.lgi:nth-last-child(1){animation:flash .8s ease}
+@keyframes flash{from{background:#EAF2FF;border-left-color:var(--blue)}to{background:transparent}}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:#D3DBE8;border-radius:4px;border:2px solid #fff}
+::-webkit-scrollbar-track{background:transparent}
+
+.model{padding:11px 13px;font-size:11px;color:var(--muted);line-height:1.62}
+.model code{background:#F3F6FB;border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:10.5px;color:#33415A}
+.model b{color:#25324A}
+.fml{background:#F8FAFD;border:1px dashed var(--line);border-radius:7px;padding:7px 9px;margin:6px 0;color:#3A4A63}
+
+/* ===== 顶部状态条（后端 / 硬件在环） ===== */
+.statusbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:7px 18px;
+  background:#0A2A5E;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:#DCE7FA}
+.statusbar .sb{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:3px 10px}
+.statusbar .sb b{color:#fff;font-weight:600}
+.statusbar .sb.warn{background:rgba(224,138,0,.22);border-color:rgba(224,138,0,.5)}
+.statusbar .sb.ok{background:rgba(18,161,80,.20);border-color:rgba(18,161,80,.45)}
+.statusbar .sb.bad{background:rgba(220,38,38,.20);border-color:rgba(220,38,38,.45)}
+.statusbar .sdot{width:7px;height:7px;border-radius:50%;background:#93A1B5;flex:none}
+.statusbar .sb.ok .sdot{background:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.22)}
+.statusbar .sb.warn .sdot{background:#F59E0B}
+.statusbar .sb.bad .sdot{background:#F87171}
+.statusbar .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.statusbar button{font:inherit;font-size:11px;padding:3px 10px;border-radius:14px;cursor:pointer;
+  background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.statusbar button:hover{background:rgba(255,255,255,.26)}
+.statusbar .mono{font-size:11px}
+
+/* ===== 面板通用 ===== */
+.pane{padding:11px 13px;display:flex;flex-direction:column;gap:10px}
+.pane .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pane .row.between{justify-content:space-between}
+.pane label{font-size:11px;color:var(--muted)}
+.pane select,.pane input[type=text]{background:#fff;color:var(--text);border:1px solid var(--line);
+  border-radius:7px;padding:4px 8px;font-size:11.5px;font-family:inherit;outline:none;cursor:pointer}
+.pane select:focus,.pane input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,99,246,.12)}
+.btn2{border:1px solid var(--line);background:#F8FAFD;color:#25324A;border-radius:7px;
+  padding:5px 11px;font-size:11.5px;font-family:inherit;cursor:pointer;transition:.15s}
+.btn2:hover{background:#EEF3FB;border-color:#C9D6EA}
+.btn2:disabled{opacity:.5;cursor:not-allowed}
+.btn2.primary{background:linear-gradient(90deg,#0B63F6,#0891B2);color:#fff;border-color:transparent;font-weight:600}
+.btn2.primary:hover{filter:brightness(1.06)}
+.hint{font-size:10.5px;color:var(--muted2);line-height:1.5}
+.empty{padding:14px;text-align:center;font-size:11px;color:var(--muted2);background:#F8FAFD;
+  border:1px dashed var(--line);border-radius:8px}
+.tbl-sm{max-height:190px;overflow:auto;border:1px solid var(--line2);border-radius:8px}
+.tbl-sm table{font-size:10.5px}
+.tbl-sm th{background:#F6F9FD}
+.tbl-sm td{padding:4px 7px}
+.doton{display:inline-block;width:7px;height:7px;border-radius:50%;background:#12A150}
+.dotoff{display:inline-block;width:7px;height:7px;border-radius:50%;background:#C3CCDA}
+.dothw{display:inline-block;width:7px;height:7px;border-radius:50%;background:#7C3AED}
+.tag2{display:inline-block;font-size:9.5px;padding:0 5px;border-radius:10px;background:#EEF3FB;
+  color:#5A6B85;border:1px solid var(--line)}
+.tag2.hil{background:#F3E8FF;color:#6D28D9;border-color:#DDD0FA}
+.tag2.sim{background:#E8F1FF;color:#1D4FD7;border-color:#CFE0FF}
+.tag2.warn{background:#FFF4E0;color:#A15C00;border-color:#FBE0B4}
+.mini{font-size:10px;color:var(--muted2)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;font-size:10.5px;color:var(--muted)}
+.kv b{color:var(--text);font-variant-numeric:tabular-nums}
+.exp-sum{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:8px;overflow:hidden}
+.exp-sum div{background:#fff;padding:6px 9px;font-size:11px}
+.exp-sum .k{font-size:10px;color:var(--muted)}
+.exp-sum .v{font-size:14px;font-weight:650;font-variant-numeric:tabular-nums;margin-top:1px}
+.exp-sum .v.good{color:var(--green)}.exp-sum .v.bad{color:var(--red)}
+.evlist{display:flex;flex-direction:column;gap:4px;max-height:120px;overflow:auto}
+.ev{font-size:10.5px;color:#3A4A63;border-left:2px solid var(--line);padding-left:7px}
+.ev b{color:#16202F}
+.ev.offline{border-left-color:var(--red)}
+.ev.online{border-left-color:var(--green)}
+.ev.mode{border-left-color:var(--purple)}
+
+/* ===== KPI 迷你走势 ===== */
+.kpi{position:relative}
+canvas.spark{display:block;width:100%;height:22px;margin-top:3px}
+.legend-inline{display:flex;gap:12px;align-items:center;font-size:10px;color:var(--muted);
+  padding:0 10px 6px}
+.legend-inline i{display:inline-block;width:14px;height:0;border-top-width:2px;border-top-style:solid;margin-right:4px;vertical-align:2px}
+.chipwarn{display:inline-block;font-size:9.5px;padding:0 6px;border-radius:10px;background:#FFECEC;color:#B91C1C;border:1px solid #FBD5D5}
+.chipok{display:inline-block;font-size:9.5px;padding:0 6px;border-radius:10px;background:#E9F9F0;color:#0E7A3C;border:1px solid #C7EED8}
+
+@media(max-width:1340px){ .shell{grid-template-columns:1fr} .charts{grid-template-columns:1fr 1fr} }
+@media(max-width:820px){ .charts{grid-template-columns:1fr} .brand{min-width:0}
+  .exp-sum{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">AI</div>
+    <div>
+      <h1>工业智算网 · 通算协同调度平台</h1>
+      <p>面向智能制造的通信资源 + 计算资源联合优化仿真</p>
+    </div>
+  </div>
+  <div class="ctrls">
+    <span class="pill"><span class="dot"></span><span id="clock">T+00:00</span></span>
+    <div class="ctrl"><label>场景</label>
+      <select id="scene">
+        <option value="normal" selected>常规混线生产</option>
+        <option value="vision">视觉质检高峰</option>
+        <option value="agv">AGV 潮汐调度</option>
+        <option value="llm">大模型突发推理</option>
+        <option value="degrade">回传网络降级</option>
+        <option value="stress">极限压力测试</option>
+      </select>
+    </div>
+    <div class="ctrl"><label>任务强度</label><input type="range" id="rate" min="2" max="30" step="1" value="9"><span class="rv" id="rateV">9/s</span></div>
+    <div class="ctrl"><label>速度</label><input type="range" id="speed" min="5" max="40" step="5" value="15"><span class="rv" id="speedV">1.5×</span></div>
+    <button class="btn on" id="btnAI">AI 协同调度</button>
+    <button class="btn" id="btnPause">暂停</button>
+    <button class="btn" id="btnReset">重置</button>
+  </div>
+</header>
+
+<div class="statusbar">
+  <span class="sb" id="netChip"><span class="sdot"></span>引擎：<b id="netText">本地内置</b></span>
+  <span class="sb" id="modelChip">模型：<b id="modelText">v1 标定版</b></span>
+  <span class="sb" id="hilChip">硬件在环：<b id="hilText">未连接</b></span>
+  <span class="sb" id="devChip">设备：<b id="devText">0 在线 / 0 注册</b></span>
+  <span class="right">
+    <span class="mono" id="pumpText">—</span>
+    <button id="btnRefresh" title="重新探测后端并刷新设备/模型/实验状态">刷新状态</button>
+    <button id="btnSchema" title="查看硬件接入接口契约（需连接后端）">硬件接口文档</button>
+  </span>
+</div>
+
+<div class="shell">
+  <div class="col">
+    <div class="card">
+      <h2>智能工厂通算网络拓扑 · 实时仿真<span class="tag" id="topoTag">现场层 → 边缘层 → 云端</span></h2>
+      <canvas id="topo" width="1000" height="470"></canvas>
+      <div class="legend">
+        <span><i style="background:#0B63F6"></i>机器视觉</span>
+        <span><i style="background:#DC2626"></i>机器人控制</span>
+        <span><i style="background:#E08A00"></i>AGV 调度</span>
+        <span><i style="background:#7C3AED"></i>大模型推理</span>
+        <span><i style="background:#0891B2"></i>预测性维护</span>
+        <span style="margin-left:auto">链路状态：<b style="color:#12A150">通畅</b> → <b style="color:#E08A00">紧张</b> → <b style="color:#DC2626">拥塞</b></span>
+      </div>
+    </div>
+
+    <div class="charts">
+      <div class="card"><h2>端到端时延<span class="tag">ms</span></h2>
+        <div class="legend-inline"><span><i style="border-color:#0B63F6"></i>平均时延</span><span><i style="border-color:#E08A00"></i>P95</span><span><i style="border-color:#93A1B5;border-top-style:dashed"></i>对照轨</span></div>
+        <div class="body" style="padding-top:0"><canvas class="chart" id="chLat"></canvas></div></div>
+      <div class="card p"><h2>网络链路利用率<span class="tag">%</span></h2>
+        <div class="legend-inline"><span><i style="border-color:#7C3AED"></i>峰值链路利用率</span><span class="mini">现场总线为全系统共享瓶颈</span></div>
+        <div class="body" style="padding-top:0"><canvas class="chart" id="chBw"></canvas></div></div>
+      <div class="card c"><h2>算力节点 GPU 利用率<span class="tag">%</span></h2>
+        <div class="legend-inline"><span><i style="border-color:#0891B2"></i>节点平均利用率</span><span class="mini">实时控制预留 60% 现场算力</span></div>
+        <div class="body" style="padding-top:0"><canvas class="chart" id="chGpu"></canvas></div></div>
+    </div>
+
+    <div class="card">
+      <h2>任务流水 · 调度结果跟踪<span class="tag" id="tblTag">最近 40 条</span></h2>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>任务类型</th><th>来源设备</th><th>执行位置</th><th>端到端时延</th><th>截止时延</th><th>结果</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card g">
+      <h2>实时运行指标<span class="tag" id="modeTag">AI 协同调度 · 双轨对照中</span></h2>
+      <div class="kpis">
+        <div class="kpi"><div class="k">平均端到端时延</div><div class="v"><span id="k1">—</span><span class="u">ms</span></div><div class="d dim" id="kd1">—</div><canvas class="spark" id="sp1"></canvas></div>
+        <div class="kpi"><div class="k">P95 时延</div><div class="v"><span id="k2">—</span><span class="u">ms</span></div><div class="d dim" id="kd2">—</div><canvas class="spark" id="sp2"></canvas></div>
+        <div class="kpi"><div class="k">任务超时率</div><div class="v"><span id="k3">—</span><span class="u">%</span></div><div class="d dim" id="kd3">—</div><canvas class="spark" id="sp3"></canvas></div>
+        <div class="kpi"><div class="k">任务吞吐</div><div class="v"><span id="k4">—</span><span class="u">个/s</span></div><div class="d dim" id="kd4">—</div><canvas class="spark" id="sp4"></canvas></div>
+        <div class="kpi"><div class="k">平均 GPU 利用率</div><div class="v"><span id="k5">—</span><span class="u">%</span></div><div class="d dim" id="kd5">—</div><canvas class="spark" id="sp5"></canvas></div>
+        <div class="kpi"><div class="k">峰值链路利用率</div><div class="v"><span id="k6">—</span><span class="u">%</span></div><div class="d dim" id="kd6">—</div><canvas class="spark" id="sp6"></canvas></div>
+        <div class="kpi"><div class="k">任务队列积压</div><div class="v"><span id="k7">—</span><span class="u">个</span></div><div class="d dim" id="kd7">—</div><canvas class="spark" id="sp7"></canvas></div>
+        <div class="kpi"><div class="k">单位任务能耗</div><div class="v"><span id="k8">—</span><span class="u">u</span></div><div class="d dim" id="kd8">—</div><canvas class="spark" id="sp8"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card c">
+      <h2>硬件在环（HIL）<span class="tag" id="hilTag">未连接后端</span></h2>
+      <div class="pane" id="hilPane">
+        <div class="row">
+          <label>在环模式</label>
+          <select id="hilMode">
+            <option value="off">纯仿真（硬件仅登记）</option>
+            <option value="shadow">影子模式（只对照不干预）</option>
+            <option value="hil">硬件在环（实测覆盖仿真）</option>
+          </select>
+          <button class="btn2" id="hilRefresh">刷新设备</button>
+          <button class="btn2" id="hilSim" title="启动内置设备模拟器（需后端在本机运行该脚本）">怎么接入？</button>
+        </div>
+        <div class="row between">
+          <span class="hint" id="hilHint">连接后端后，真实边缘盒子 / 相机 / AGV / 交换机的实测数据可覆盖仿真状态。</span>
+        </div>
+        <div id="hilDevices"><div class="empty">未连接后端 · 本地引擎运行中</div></div>
+        <div class="evlist" id="hilEvents"></div>
+      </div>
+    </div>
+
+    <div class="card p">
+      <h2>模型与实验<span class="tag" id="expTag">本地引擎 v1</span></h2>
+      <div class="pane">
+        <div class="row">
+          <label>调度模型</label>
+          <select id="modelSel"><option value="v1">v1 标定版（页面内置同源）</option></select>
+          <button class="btn2" id="modelApply">应用</button>
+        </div>
+        <div class="row">
+          <label>批量实验</label>
+          <select id="expDur">
+            <option value="30000">快速 30s</option>
+            <option value="120000" selected>完整 120s</option>
+          </select>
+          <select id="expScope">
+            <option value="all">全部 6 场景</option>
+            <option value="vision,agv,stress">高负载场景</option>
+            <option value="normal">仅常规混线</option>
+          </select>
+          <button class="btn2 primary" id="expRun">运行 AI vs 基线对照</button>
+        </div>
+        <div class="hint" id="expHint">实验在后端离线跑完整场景矩阵，产出与 .test/report.txt 同格式的对照报告。</div>
+        <div id="expBody"><div class="empty">未连接后端 · 实验需后端支持</div></div>
+        <div style="border-top:1px dashed var(--line);padding-top:9px">
+          <div class="row between">
+            <label>节点权重（算法动态分配）</label>
+            <span class="mini" id="wState">未连接后端</span>
+          </div>
+          <div class="row" id="wRow">
+            <span class="mini">现场</span><input type="number" id="w-local" min="0.1" max="4" step="0.1" value="1.0" style="width:62px">
+            <span class="mini">边缘A</span><input type="number" id="w-edgeA" min="0.1" max="4" step="0.1" value="1.0" style="width:62px">
+            <span class="mini">边缘B</span><input type="number" id="w-edgeB" min="0.1" max="4" step="0.1" value="1.0" style="width:62px">
+            <span class="mini">云端</span><input type="number" id="w-cloud" min="0.1" max="4" step="0.1" value="1.0" style="width:62px">
+            <button class="btn2 primary" id="wApply">应用先验偏置</button>
+            <button class="btn2" id="wNeutral">清除偏置</button>
+          </div>
+          <div class="hint" id="wHint">权重由算法动态分配（压力比为主 + 质量学习），不需要人工设定：压力高于全网的节点自动降权、低于的自动提权，全网均衡时权重回到 1.0。上面四个输入框是可选的<b>先验偏置</b>（默认 1.0 = 完全交给算法）。权重只作用于 AI 轨，基线保持静态规则映射。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>AI 协同调度 vs 静态规则调度<span class="tag">同一任务流 · 双轨对照</span></h2>
+      <div class="cmp" id="cmp"></div>
+    </div>
+
+    <div class="card c">
+      <h2>算力节点负载<span class="tag" id="nodeTag">—</span></h2>
+      <div class="nodes" id="nodes"></div>
+    </div>
+
+    <div class="card p">
+      <h2>通信链路带宽<span class="tag" id="linkTag">Gbps</span></h2>
+      <div class="links" id="links"></div>
+    </div>
+
+    <div class="card">
+      <h2>AI 调度决策日志<span class="tag">实时推理输出</span></h2>
+      <div id="log"></div>
+    </div>
+
+    <div class="card">
+      <h2>调度模型说明<span class="tag" id="modelCardTag">页面内置 v1 标定版</span></h2>
+      <div class="model" id="modelCard">
+        <div class="fml mono">cost(task,node) = 1.00·(L_est / D) + 0.70·E_node + 0.30·U_node + 0.35·O_work + 3.0·max(0, L_est/D − 1)</div>
+        <div class="fml mono" style="margin-top:-3px">node* = arg&nbsp;min [ cost + 0.20 × 在途连接数 ]</div>
+        <div><b>L_est</b> = 路径时延 + 传输时延 + 排队时延 + 计算时延（广域/回传链路另计时延抖动余量）；<b>D</b> 为任务截止时延；<b>E_node</b> 为节点综合能耗系数（含 PUE 与制冷）；<b>U_node</b> 为节点负载率；<b>O_work</b> 为算力占用度。预估时延超出截止时延的部分按 3.0 倍线性放大作为违约惩罚，逼使调度器规避不可行节点。</div>
+        <div style="margin-top:6px"><b>负载平准</b>：择优时叠加 <code>0.20 × 在途连接数</code>。两个边缘节点物理对称时，仅比代价会退化为近似随机选择（违约惩罚数值巨大却几乎相等，把负载信号淹没）；加入平准项后对称节点自动交替承接，显著摊平拥塞。</div>
+        <div style="margin-top:6px"><b>算力分配</b>：节点算力按 <code>优先级^1.35 × 截止紧迫度</code> 加权推进；现场算力一体机预留 60% 算力专供实时控制任务（机器人），保障控制回路不被大流量任务挤占。静态基线仅按优先级均分。</div>
+        <div style="margin-top:6px"><b>带宽分配（拥塞自适应）</b>：遵循「非必要不干预」——链路利用率 ≤95% 时保持等权公平共享（公平共享在非拥塞网络下平均完成时间最优，此时差异化只会制造输家）；越过 95% 拥塞门限后线性渐入 <code>prio^1.3</code> 加权，把带宽优先让给时延敏感任务。倾斜刻意保持轻度：更强的倾斜会在饱和期显著推高平均时延，却换不回短任务的截止达成。分配保持工作保持特性，空闲带宽被活跃流充分复用。</div>
+        <div style="margin-top:6px"><b>对照基线</b>：静态规则映射（机器人→本地；视觉 / AGV / 维护→边缘；大模型→云端）+ 等权均分带宽，不感知实时负载、拥塞程度与截止时延。</div>
+        <div style="margin-top:7px;padding:6px 8px;background:#F3F6FB;border:1px solid var(--line);border-radius:7px">
+          <b>离线 / 在线说明</b>：本页离线运行时使用<b>页面内置引擎（v1 标定版）</b>，与页面自带测试基线完全一致；连接后端后，由后端模型接管（默认
+          <b>v2 优化版</b>：流体排队修正 + 通算权衡「拥塞时降采样上传，用算力换带宽」），可在上方「模型与实验」卡片中切换与对照。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* =========================================================================
+   工业智算网 · 通算协同调度仿真
+   单位约定：work(TFLOP) 计算量 / cap(TFLOPS) 算力 / data(MB) 数据量
+             链路带宽 Gbps，1 Gbps = 0.125 MB/ms；时间统一 ms（仿真时钟）
+   ========================================================================= */
+const clamp=(v,a,b)=>v<a?a:(v>b?b:v);
+const lerp=(a,b,t)=>a+(b-a)*t;
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const fmt=(v,n=1)=>(v==null||!isFinite(v))?"—":v.toFixed(n);
+
+/* ---------------- 任务类型 ---------------- */
+const TYPES={
+  vision:{name:"机器视觉检测", short:"视觉",   icon:"📷", dataIn:12,  dataOut:0.2,  work:0.25, deadline:200,  prio:3, color:"#0B63F6", dev:"cam"},
+  robot: {name:"机器人控制",   short:"机器人", icon:"🦾", dataIn:0.05,dataOut:0.05, work:0.015,deadline:20,   prio:5, color:"#DC2626", dev:"rb"},
+  agv:   {name:"AGV 调度",     short:"AGV",   icon:"🚚", dataIn:1.0, dataOut:0.2,  work:0.5,  deadline:120,  prio:4, color:"#E08A00", dev:"agv"},
+  llm:   {name:"大模型推理",   short:"大模型", icon:"🧠", dataIn:0.8, dataOut:1.6,  work:24,   deadline:1100, prio:2, color:"#7C3AED", dev:"llm"},
+  maint: {name:"预测性维护",   short:"维护",   icon:"📡", dataIn:1.5, dataOut:0.1,  work:0.6,  deadline:900,  prio:2, color:"#0891B2", dev:"sen"},
+};
+
+/* ---------------- 现场设备 ---------------- */
+const DEVICES=[
+  {id:"cam", name:"视觉相机阵列", icon:"📷", type:"vision", x:62, y:62},
+  {id:"rb",  name:"机器人控制柜", icon:"🦾", type:"robot",  x:62, y:150},
+  {id:"agv", name:"AGV 车队",     icon:"🚚", type:"agv",    x:62, y:238},
+  {id:"llm", name:"工控大模型终端",icon:"🧠", type:"llm",    x:62, y:326},
+  {id:"sen", name:"设备传感网络",  icon:"📡", type:"maint",  x:62, y:414},
+];
+const DEV_BY_ID={}; DEVICES.forEach(d=>DEV_BY_ID[d.id]=d);
+
+/* ---------------- 算力节点 ---------------- */
+const NODE_DEFS=[
+  {id:"local", name:"现场算力一体机", tag:"LOCAL",  x:258, y:96,  w:106, h:58, cap:2.5, lat:0.8, ept:0.90, reserve:0.60, color:"#0B63F6"},
+  {id:"edgeA", name:"边缘智算节点 A", tag:"EDGE-A", x:432, y:170, w:114, h:60, cap:6,   lat:6,   ept:0.55, reserve:0,    color:"#7C3AED"},
+  {id:"edgeB", name:"边缘智算节点 B", tag:"EDGE-B", x:432, y:332, w:114, h:60, cap:6,   lat:6,   ept:0.55, reserve:0,    color:"#7C3AED"},
+  {id:"cloud", name:"云端算力中心",   tag:"CLOUD",  x:790, y:250, w:140, h:74, cap:120, lat:65,  ept:9.00, reserve:0,    color:"#0891B2"},
+];
+const RT_PRIO=5;   // 实时控制任务优先级阈值（占用预留算力）
+
+/* ---------------- 通信链路 ---------------- */
+const LINK_DEFS=[
+  {id:"field",    name:"现场总线 / TSN", cap:1.2, color:"#0B63F6"},
+  {id:"access",   name:"边缘接入网",     cap:4.0, color:"#7C3AED"},
+  {id:"backhaul", name:"5G / 专线回传",  cap:2.5, color:"#0891B2"},
+];
+const NODE_LINKS={local:["field"], edgeA:["field","access"], edgeB:["field","access"], cloud:["field","access","backhaul"]};
+
+/* ---------------- 场景 ---------------- */
+const SCENES={
+  normal: {rate:11, w:{vision:.30,robot:.20,agv:.20,llm:.15,maint:.15}, bw:{field:1,access:1,backhaul:1}},
+  vision: {rate:18, w:{vision:.55,robot:.13,agv:.10,llm:.09,maint:.13}, bw:{field:1,access:1,backhaul:1}},
+  agv:    {rate:26, w:{vision:.16,robot:.10,agv:.52,llm:.10,maint:.12}, bw:{field:1,access:1,backhaul:1}},
+  llm:    {rate:10, w:{vision:.16,robot:.14,agv:.12,llm:.46,maint:.12}, bw:{field:1,access:1,backhaul:1}},
+  degrade:{rate:18, w:{vision:.30,robot:.18,agv:.20,llm:.17,maint:.15}, bw:{field:1,access:1,backhaul:0.45}},
+  stress: {rate:24, w:{vision:.34,robot:.16,agv:.22,llm:.14,maint:.14}, bw:{field:0.85,access:0.9,backhaul:0.8}},
+};
+function cloneScene(name){
+  const sc=SCENES[name];
+  return {rate:sc.rate, weights:{...sc.w}, bwScale:{...sc.bw}};
+}
+let params=cloneScene("normal");
+
+/* ---------------- 仿真核心 ---------------- */
+const TSCALE=0.10;        // 1ms 真实时间 = 0.10ms 仿真时间
+const SAMPLE_MS=250;
+
+function makeSim(mode,seed){
+  const s={
+    mode, rng:mulberry32(seed), t:0, acc:0, nextId:1,
+    tasks:[], limitHit:0,
+    nodes:NODE_DEFS.map(n=>({...n, running:[], backlog:0, used:0, util:0, utilS:0, done:0, latSum:0, workSum:0, pending:0})),
+    links:LINK_DEFS.map(l=>({...l, capS:l.cap, demand:0, act:0, load:0, util:0, utilS:0})),
+    table:[], log:[], typeStat:{},
+    stat:{n:0, latSum:0, lats:[], miss:0, energy:0, work:0, bytes:0, cloud:0, edge:0, local:0, active:0},
+    hist:{lat:[], p95:[], bw:[], gpu:[]},
+    lastSample:-1, throughput:0, tpWindow:[], lastUid:0
+  };
+  s.nodeById={}; s.nodes.forEach(n=>s.nodeById[n.id]=n);
+  s.linkById={}; s.links.forEach(l=>s.linkById[l.id]=l);
+  return s;
+}
+
+/* 粒子路径 */
+function buildPath(nodeId,devY){
+  const d=devY;
+  if(nodeId==="local") return [[86,d],[150,d],[150,96],[205,96]];
+  if(nodeId==="edgeA") return [[86,d],[150,d],[150,250],[340,250],[375,170]];
+  if(nodeId==="edgeB") return [[86,d],[150,d],[150,250],[340,250],[375,332]];
+  return [[86,d],[150,d],[150,250],[718,250]];
+}
+function polyLen(p){let L=0;for(let i=1;i<p.length;i++)L+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return L||1;}
+function polyAt(p,f){
+  const L=polyLen(p); let d=f*L;
+  for(let i=1;i<p.length;i++){
+    const seg=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);
+    if(d<=seg||i===p.length-1){const t=seg>0?clamp(d/seg,0,1):0;return[lerp(p[i-1][0],p[i][0],t),lerp(p[i-1][1],p[i][1],t)];}
+    d-=seg;
+  }
+  return p[p.length-1];
+}
+
+/* 链接可用带宽与拥塞度估计 */
+function linkBwEst(s,links){
+  let bw=1e9, u=0;
+  for(const lid of links){
+    const l=s.linkById[lid];
+    bw=Math.min(bw, Math.max(l.capS*(1-0.82*l.utilS), l.capS*0.06));
+    u=Math.max(u,l.utilS);
+  }
+  return {bw,u};
+}
+/* AI 成本评估
+   时延(含网络抖动余量) + 能耗 + 负载均衡 + 算力占用 + 违约放大
+   抖动余量：广域网/回传链路时延抖动不可控，负载越高抖动越大，实时任务应规避
+   实时预留：prio≥RT_PRIO 的任务使用现场预留算力，普通任务只能用剩余部分 */
+function evaluate(s,task,node){
+  const links=NODE_LINKS[node.id];
+  const {bw,u}=linkBwEst(s,links);
+  const jitter = node.lat<2 ? node.lat*0.2 : node.lat*(0.25+1.2*u);
+  const pathLat = node.lat + jitter;
+  const isRT = task.prio>=RT_PRIO;
+  const res = node.reserve||0;
+  const usableCap = node.cap*(isRT?1:(1-res));
+  let same=0;
+  for(const x of node.running) if((x.prio>=RT_PRIO)===isRT) same++;
+  const conc=same+1;
+  const shareCap=Math.max(usableCap/conc, usableCap*0.04);
+  const estTransfer=task.bytesLeft/Math.max(bw*0.125,0.02);
+  const estCompute=task.workLeft/shareCap*1000;
+  const estQueue=node.backlog*0.20/Math.max(node.cap,0.1)*1000;
+  const estLat=pathLat+estTransfer+estQueue+estCompute;
+  const ratio=estLat/task.deadline;
+  const feasible=ratio<=1.02;
+  const eNorm=node.ept/9.0;
+  const occupancy=task.workLeft/node.cap*10;    // 以「独占 100ms 算力」为 1 个占用单位
+  const over=Math.max(0,ratio-1);
+  return {
+    estLat,estTransfer,estQueue,estCompute,pathLat,jitter,bwUtil:u,feasible,eNorm,occupancy,
+    cost:1.00*ratio + 0.70*eNorm + 0.30*node.utilS + 0.35*occupancy + 3.0*over
+  };
+}
+const STATIC_RULE={robot:"local",vision:null,agv:null,llm:"cloud",maint:null};
+let rrCounter=0;
+
+/* ---------- 单步推进 ---------- */
+function step(s,dt,params,t){
+  s.t=t;
+  /* --- 链路实际容量（含场景劣化系数） --- */
+  for(const l of s.links) l.capS=l.cap*params.bwScale[l.id];
+
+  /* 1. 任务到达 + 调度决策 */
+  s.acc+=dt*params.rate/1000;
+  let guard=0;
+  while(s.acc>=1&&guard++<40){
+    s.acc-=1;
+    const typeKey=pickType(s,params);
+    const T=TYPES[typeKey];
+    const dev=DEV_BY_ID[T.dev];
+    const tk={
+      id:s.nextId++, type:typeKey, T, devId:dev.id, devY:dev.y,
+      bytes:T.dataIn+T.dataOut, bytesLeft:T.dataIn+T.dataOut,
+      work:T.work, workLeft:T.work, deadline:T.deadline, prio:T.prio,
+      spawnT:t, nodeId:null, state:"transfer", bwEff:0.25, _w:1, _share:0
+    };
+    let chosen;
+    if(s.mode==="ai"){
+      /* 综合代价择优 + 「最少在途连接数」平准项。
+         平准项必不可少：两个边缘节点物理对称时，代价差极小却叠加着数值巨大的违约惩罚，
+         若只比代价，选择会退化为近乎随机，反而失去负载平准能力；
+         引入 0.20×在途连接数后，对称节点自动交替承接，拥塞被摊平。 */
+      let best=null;
+      for(const n of s.nodes){
+        const e=evaluate(s,tk,n);
+        const c=e.cost+0.20*n.pending;
+        if(!best||c<best.c) best={n,e,c};
+      }
+      chosen=best;
+    }else{
+      let nid=STATIC_RULE[tk.type];
+      if(nid==null) nid=(rrCounter++%2===0)?"edgeA":"edgeB";
+      const n=s.nodeById[nid];
+      chosen={n,e:evaluate(s,tk,n)};
+    }
+    tk.nodeId=chosen.n.id;
+    chosen.n.pending++;
+    tk.est=chosen.e;
+    tk.path=buildPath(chosen.n.id,tk.devY);
+    tk.visT=t;
+    tk.visDur=clamp(chosen.e.estTransfer,100,1500);
+    s.tasks.push(tk);
+    if(s.mode==="ai"){
+      s.log.push({t,type:tk.type,node:chosen.n.tag,lat:chosen.e.estLat,dl:tk.deadline,ok:chosen.e.feasible,
+                  reason:`综合代价 ${chosen.e.cost.toFixed(2)} ｜ 预估时延 ${chosen.e.estLat.toFixed(0)}ms`});
+      if(s.log.length>40)s.log.shift();
+    }
+  }
+
+  /* 2. 带宽权重（拥塞自适应优先级调度）
+       ── 核心原则「非必要不干预」：
+       链路利用率 ≤95% 时保持等权公平共享。公平共享在非拥塞网络下平均完成时间最优，
+               此时任何差异化分配都只会制造输家、不产生赢家（原本都能按时完成）；
+       利用率越过 95% 后线性渐入优先级加权，把带宽倾斜给时延敏感任务（机器人控制 / AGV / 视觉），
+               保障实时控制回路不被大流量的大模型 / 维护任务饿死。
+       倾斜刻意保持「轻度」：实验标定表明更强的倾斜会在饱和期显著推高平均时延
+       （长时延的大模型 / 维护任务被迫排队），却换不回短任务的截止达成——它们在饱和期已注定超时。
+       基线：等权均分，既不感知拥塞，也不感知优先级。 */
+  let maxU=0;
+  for(const l of s.links) if(l.utilS>maxU) maxU=l.utilS;
+  const press=clamp((maxU-0.95)/0.35,0,1);               // 拥塞压力：≤95% 为 0，满负荷约 0.14
+  for(const l of s.links){ l.demand=0; }
+  for(const tk of s.tasks){
+    if(tk.state!=="transfer")continue;
+    let w=1.0;
+    if(s.mode==="ai") w=1.0 + press*(Math.pow(tk.prio,1.30)-1);
+    tk.want=w;
+    for(const lid of NODE_LINKS[tk.nodeId]) s.linkById[lid].demand+=w;
+  }
+  /* 3. 按权重比例分配带宽（工作保持，单流上限 85%）并推进传输 */
+  for(const l of s.links){ l.act=0; }
+  for(const tk of s.tasks){
+    if(tk.state!=="transfer")continue;
+    const links=NODE_LINKS[tk.nodeId];
+    let eff=1e9;
+    for(const lid of links){
+      const l=s.linkById[lid];
+      eff=Math.min(eff, Math.min(l.capS*tk.want/l.demand, l.capS*0.85));
+    }
+    tk.bwEff=Math.max(eff,0.004);
+    for(const lid of links) s.linkById[lid].act+=tk.bwEff;   // 实际占用带宽=真实吞吐
+    tk.bytesLeft-=tk.bwEff*0.125*dt;
+    if(tk.bytesLeft<=0){
+      tk.bytesLeft=0; tk.state="compute"; tk.arrived=t;
+      const n=s.nodeById[tk.nodeId];
+      n.running.push(tk); n.backlog+=tk.workLeft;
+    }
+  }
+  /* 4. 算力分配 + 推进计算 */
+  for(const n of s.nodes) allocNode(n,dt,s,t);
+  /* 5. 链路真实利用率（基于实际占用带宽，而非带宽需求） */
+  for(const l of s.links){
+    l.load=l.act;
+    l.util=clamp(l.act/Math.max(l.capS,0.01),0,1);
+    l.utilS+=(l.util-l.utilS)*Math.min(1,dt/300);
+  }
+  /* 6. 回收已完成任务 */
+  s.tasks=s.tasks.filter(tk=>{
+    if(tk.state==="compute"&&tk.workLeft<=0){ finish(s,tk,t); return false; }
+    return true;
+  });
+  s.stat.active=s.tasks.length;
+
+  /* 7. 采样 */
+  if(s.lastSample<0||t-s.lastSample>=SAMPLE_MS){
+    s.lastSample=t;
+    const gu=s.nodes.reduce((a,n)=>a+n.util,0)/s.nodes.length;
+    const bu=Math.max(...s.links.map(l=>clamp(l.util,0,1)));
+    s.hist.lat.push(avgLat(s)); s.hist.p95.push(p95(s));
+    s.hist.gpu.push(gu); s.hist.bw.push(bu);
+    for(const k in s.hist) if(s.hist[k].length>140) s.hist[k]=s.hist[k].slice(-140);
+    s.tpWindow.push({t,c:s.stat.n});
+    while(s.tpWindow.length>1&&s.tpWindow[0].t<t-1200)s.tpWindow.shift();
+    if(s.tpWindow.length>1){
+      const f=s.tpWindow[0], l=s.tpWindow[s.tpWindow.length-1];
+      s.throughput=1000*(l.c-f.c)/Math.max(l.t-f.t,1);
+    }
+  }
+  if(s.tasks.length>1200){ s.tasks.splice(0,s.tasks.length-1200); s.limitHit++; }
+}
+function pickType(s,params){
+  const w=params.weights; const x=s.rng(); let acc=0;
+  for(const k in w){ acc+=w[k]; if(x<acc) return k; }
+  return "vision";
+}
+/* 组内算力共享：按 优先级×紧迫度 加权，未用满的算力自动回补；返回本组实际获得的 TFLOPS */
+function shareGroup(group,cap,dt,s,t){
+  if(!group.length||cap<=0) return 0;
+  let open=group.slice(), capLeft=cap;
+  for(let iter=0;iter<4&&open.length;iter++){
+    let W=0;
+    for(const tk of open){
+      let w=Math.pow(tk.prio,1.35);
+      if(s.mode==="ai"){
+        const slack=Math.max(tk.deadline-(t-tk.spawnT),8);
+        w*=clamp(1+tk.est.estCompute/Math.max(slack,8),1,3.2);
+      }
+      tk._w=w; W+=w;
+    }
+    const next=[]; let used=0;              // used 只累计「已被吃掉的」算力
+    for(const tk of open){
+      const share=capLeft*tk._w/W;
+      const need=tk.workLeft/(dt/1000);     // 本步算完所需的 TFLOPS
+      if(need<share){ tk._share=need; used+=need; }
+      else { tk._share=share; next.push(tk); }
+    }
+    capLeft-=used; open=next;
+  }
+  let tot=0; for(const tk of group) tot+=tk._share;
+  return tot;
+}
+/* 节点算力分配：实时组(prio≥RT_PRIO)优先使用预留分区，其余算力给普通组；空闲分区可被借用 */
+function allocNode(n,dt,s,t){
+  /* 先剔除已算完、等待回收的任务，避免占位 */
+  const list=n.running; let k=0;
+  for(let i=0;i<list.length;i++) if(list[i].workLeft>0) list[k++]=list[i];
+  list.length=k;
+  if(!list.length){
+    n.util=0; n.backlog=0; n.rtLoad=0; n.loLoad=0;
+    n.utilS+=(0-n.utilS)*Math.min(1,dt/200);
+    return;
+  }
+  for(const tk of list) tk._share=0;
+  const hi=[],lo=[];
+  for(const tk of list) (tk.prio>=RT_PRIO?hi:lo).push(tk);
+  const reserved=n.cap*(n.reserve||0);
+  let usedHi=0;
+  if(hi.length) usedHi=shareGroup(hi, reserved>0?reserved:n.cap, dt, s, t);
+  if(lo.length) shareGroup(lo, Math.max(n.cap-usedHi,0), dt, s, t);
+  let total=0;
+  for(const tk of list){
+    tk.workLeft-=tk._share*dt/1000;
+    if(tk.workLeft<=1e-9) tk.workLeft=0;      // 消除浮点残差，保证能被正确回收
+    total+=tk._share;
+  }
+  n.util=clamp(total/n.cap,0,1);
+  n.utilS+=(n.util-n.utilS)*Math.min(1,dt/200);
+  n.backlog=0; for(const tk of list) if(tk.workLeft>0) n.backlog+=tk.workLeft;
+  n.rtLoad=hi.length; n.loLoad=lo.length;
+}
+function finish(s,tk,t){
+  const n=s.nodeById[tk.nodeId];
+  const lat=(t-tk.spawnT)+n.lat;
+  const miss=lat>tk.deadline;
+  const energy=tk.work*n.ept+tk.bytes*(n.id==="cloud"?0.09:0.02);
+  s.stat.n++; s.stat.latSum+=lat; s.stat.lats.push(lat);
+  if(s.stat.lats.length>400)s.stat.lats.shift();
+  if(miss)s.stat.miss++;
+  s.stat.energy+=energy; s.stat.work+=tk.work; s.stat.bytes+=tk.bytes;
+  if(n.id==="cloud")s.stat.cloud++; else if(n.id==="local")s.stat.local++; else s.stat.edge++;
+  n.done++; n.latSum+=lat; n.workSum+=tk.work; n.pending=Math.max(0,n.pending-1);
+  const ts=s.typeStat[tk.type]||(s.typeStat[tk.type]={n:0,lat:0,miss:0,node:{}});
+  ts.n++; ts.lat+=lat; if(miss)ts.miss++;
+  ts.node[n.id]=(ts.node[n.id]||0)+1;
+  s.table.push({id:tk.id,type:tk.type,dev:tk.devId,nodeId:tk.nodeId,lat,dl:tk.deadline,miss});
+  if(s.table.length>60)s.table.shift();
+}
+const avgLat=s=>s.stat.n?s.stat.latSum/s.stat.n:0;
+function p95(s){
+  if(!s.stat.lats.length)return 0;
+  const a=s.stat.lats.slice().sort((x,y)=>x-y);
+  return a[Math.min(a.length-1,Math.floor(a.length*0.95))];
+}
+const energyPerTask=s=>s.stat.n?s.stat.energy/s.stat.n:0;
+
+/* =========================================================================
+   运行状态
+   ========================================================================= */
+let simAI,simBL,simSpeed=1.5,paused=false,lastFrame=performance.now(),uiAcc=999;
+let viewMode="ai";   // 主视图驱动策略："ai"(AI 协同调度) | "bl"(静态规则基线)
+const SEED=20261006;
+const el=id=>document.getElementById(id);
+
+function reset(){
+  simAI=makeSim("ai",SEED); simBL=makeSim("baseline",SEED);
+  rrCounter=0; el("tbody").innerHTML=""; el("log").innerHTML=""; el("cmp").innerHTML="";
+  buildNodeCards(); buildLinkCards(); lastFrame=performance.now();
+}
+
+/* =========================================================================
+   拓扑渲染
+   ========================================================================= */
+const topoCv=el("topo"), tctx=topoCv.getContext("2d");
+const CW=1000,CH=470;
+function sizeTopo(){
+  const dpr=window.devicePixelRatio||1;
+  const w=topoCv.clientWidth||1000;
+  topoCv.width=Math.round(w*dpr); topoCv.height=Math.round(w*CH/CW*dpr);
+  topoCv.style.height=(w*CH/CW)+"px";
+  tctx.setTransform(dpr*w/CW,0,0,dpr*w/CW,0,0);
+}
+function roundRect(g,x,y,w,h,r){
+  g.beginPath(); g.moveTo(x+r,y); g.lineTo(x+w-r,y); g.quadraticCurveTo(x+w,y,x+w,y+r);
+  g.lineTo(x+w,y+h-r); g.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  g.lineTo(x+r,y+h); g.quadraticCurveTo(x,y+h,x,y+h-r);
+  g.lineTo(x,y+r); g.quadraticCurveTo(x,y,x+r,y); g.closePath();
+}
+function strokePoly(g,pts){g.beginPath();g.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)g.lineTo(pts[i][0],pts[i][1]);g.stroke();}
+const linkColor=u=>u<0.55?"#12A150":(u<0.82?"#E08A00":"#DC2626");
+
+function drawTopo(s){
+  const g=tctx;
+  g.clearRect(0,0,CW,CH);
+  /* 分区 */
+  [{x:12,y:26,w:302,h:420,l:"现场层 · 智能装备",c:"#0B63F6"},
+   {x:328,y:26,w:284,h:420,l:"边缘层 · 边缘智算",c:"#7C3AED"},
+   {x:626,y:26,w:362,h:420,l:"云端 · 算力中心",c:"#0891B2"}].forEach(z=>{
+    g.fillStyle="rgba(255,255,255,.75)"; g.strokeStyle="#E1E7F1"; g.lineWidth=1;
+    roundRect(g,z.x,z.y,z.w,z.h,10); g.fill(); g.stroke();
+    g.fillStyle=z.c; g.font="600 11px 'Microsoft YaHei',sans-serif"; g.textAlign="left";
+    g.fillText(z.l,z.x+12,z.y+18);
+  });
+  /* 链路 */
+  const segs=[
+    {pts:[[150,44],[150,418]],link:"field"},
+    ...DEVICES.map(d=>({pts:[[86,d.y],[150,d.y]],link:"field"})),
+    {pts:[[150,96],[205,96]],link:"field"},
+    {pts:[[150,250],[340,250]],link:"access"},
+    {pts:[[340,250],[375,170]],link:"access"},
+    {pts:[[340,250],[375,332]],link:"access"},
+    {pts:[[492,250],[718,250]],link:"backhaul"},
+  ];
+  segs.forEach(sg=>{
+    const l=s.linkById[sg.link], col=linkColor(l.util);
+    g.lineCap="round";
+    g.strokeStyle="rgba(190,202,220,.5)"; g.lineWidth=5; strokePoly(g,sg.pts);
+    g.strokeStyle=col; g.globalAlpha=0.28+0.6*Math.min(l.util,1); g.lineWidth=2.5;
+    strokePoly(g,sg.pts); g.globalAlpha=1;
+  });
+  /* 链路标签 */
+  const lbl=(x,y,txt,c,align)=>{
+    g.font="600 10px 'Microsoft YaHei',sans-serif"; g.textAlign=align||"center";
+    const w=g.measureText(txt).width+13;
+    g.fillStyle="rgba(255,255,255,.95)"; g.strokeStyle="#E1E7F1"; g.lineWidth=1;
+    const px=align==="left"?x:x-w/2, py=y-10;
+    roundRect(g,px,py,w,17,8); g.fill(); g.stroke();
+    g.fillStyle=c; g.fillText(txt,x,py+12);
+  };
+  const L=s.linkById;
+  lbl(150,46,`现场总线 ${(L.field.capS).toFixed(1)}G`,linkColor(L.field.util));
+  lbl(300,250,`边缘接入 ${L.access.capS.toFixed(1)}G`,linkColor(L.access.util));
+  lbl(600,250,`回传 ${L.backhaul.capS.toFixed(1)}G`,linkColor(L.backhaul.util));
+  g.textAlign="left";
+  /* 设备 */
+  g.textAlign="center";
+  DEVICES.forEach(d=>{
+    g.fillStyle="#fff"; g.strokeStyle="#D6DEEA"; g.lineWidth=1;
+    roundRect(g,d.x-24,d.y-17,48,34,8); g.fill(); g.stroke();
+    g.font="16px 'Segoe UI Emoji',sans-serif"; g.textBaseline="middle";
+    g.fillText(d.icon,d.x,d.y-1);
+    g.textBaseline="alphabetic";
+    g.fillStyle="#6C7C93"; g.font="500 9.5px 'Microsoft YaHei',sans-serif";
+    g.fillText(d.name,d.x,d.y+27);
+  });
+  /* 传输粒子 */
+  for(const tk of s.tasks){
+    if(tk.state!=="transfer"||!tk.path)continue;
+    const f=clamp((s.t-tk.visT)/tk.visDur,0,1);
+    const p=polyAt(tk.path,f), col=tk.T.color;
+    g.globalAlpha=0.20; g.fillStyle=col; g.beginPath(); g.arc(p[0],p[1],5.5,0,7); g.fill();
+    g.globalAlpha=1; g.fillStyle=col; g.beginPath(); g.arc(p[0],p[1],2.8,0,7); g.fill();
+  }
+  /* 节点 */
+  for(const n of s.nodes){
+    const u=clamp(n.util,0,1);
+    g.save(); g.shadowColor="rgba(16,32,64,.10)"; g.shadowBlur=10; g.shadowOffsetY=3;
+    g.fillStyle="#fff"; g.strokeStyle=u>0.85?"#DC2626":(u>0.6?"#E08A00":"#D6DEEA"); g.lineWidth=u>0.85?1.8:1.2;
+    roundRect(g,n.x-n.w/2,n.y-n.h/2,n.w,n.h,10); g.fill(); g.stroke(); g.restore();
+    /* GPU 负载条 */
+    g.fillStyle="#EEF2F8"; roundRect(g,n.x-n.w/2+9,n.y+n.h/2-13,n.w-18,6,3); g.fill();
+    g.fillStyle=u>0.85?"#DC2626":(u>0.6?"#E08A00":"#12A150");
+    roundRect(g,n.x-n.w/2+9,n.y+n.h/2-13,(n.w-18)*u,6,3); g.fill();
+    g.textAlign="center";
+    g.fillStyle=n.color; g.font="700 10px 'Segoe UI',sans-serif";
+    g.fillText(n.tag,n.x,n.y-16);
+    g.fillStyle="#16202F"; g.font="600 11px 'Microsoft YaHei',sans-serif";
+    g.fillText(n.name,n.x,n.y-1);
+    g.fillStyle="#6C7C93"; g.font="500 9.5px 'Segoe UI',sans-serif";
+    g.fillText(`GPU ${(u*100).toFixed(0)}% · 队列 ${n.running.length} · ${n.cap}TF`,n.x,n.y+13);
+    /* 计算中的任务色点 */
+    let idx=0;
+    for(const tk of n.running){
+      if(idx>=11)break;
+      g.fillStyle=tk.T.color; g.globalAlpha=.9;
+      g.beginPath(); g.arc(n.x-n.w/2+11+idx*9.5,n.y+n.h/2+9,3,0,7); g.fill(); idx++;
+    }
+    g.globalAlpha=1;
+  }
+  g.textAlign="left";
+}
+
+/* =========================================================================
+   趋势图
+   ========================================================================= */
+const CHARTS=[
+  {id:"chLat",keys:[{k:"lat",c:"#0B63F6"},{k:"p95",c:"#E08A00"}],max:null},
+  {id:"chBw", keys:[{k:"bw",c:"#7C3AED"}],max:100},
+  {id:"chGpu",keys:[{k:"gpu",c:"#0891B2"}],max:100},
+];
+function sizeCharts(){
+  const dpr=window.devicePixelRatio||1;
+  CHARTS.forEach(c=>{
+    const cv=el(c.id); const w=cv.clientWidth||300;
+    cv.width=Math.round(w*dpr); cv.height=Math.round(112*dpr);
+    cv.getContext("2d").setTransform(dpr,0,0,dpr,0,0);
+    c.w=w;
+  });
+}
+function drawChart(c,s,other){
+  const cv=el(c.id),g=cv.getContext("2d"),w=c.w||cv.clientWidth,h=112;
+  g.clearRect(0,0,w,h);
+  const padL=32,padR=8,padT=10,padB=12,iw=w-padL-padR,ih=h-padT-padB,N=140;
+  g.strokeStyle="#EEF2F8"; g.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=padT+ih*i/4;g.beginPath();g.moveTo(padL,y);g.lineTo(w-padR,y);g.stroke();}
+  let mx=c.max;
+  if(mx==null){let m=1;c.keys.forEach(k=>s.hist[k.k].forEach(v=>{if(v>m)m=v;}));
+    if(other&&other.hist&&other.hist[c.keys[0].k]){const o=other.hist[c.keys[0].k];for(let i=0;i<o.length;i++)if(o[i]>m)m=o[i];}
+    mx=m*1.18;}
+  g.fillStyle="#93A1B5"; g.font="9.5px 'Segoe UI',sans-serif"; g.textAlign="right";
+  for(let i=0;i<=4;i++) g.fillText((mx*(1-i/4)).toFixed(0),padL-5,padT+ih*i/4+3);
+  g.textAlign="left";
+  /* 对照轨：另一策略（同种子、同任务流）的同类曲线，灰色虚线 */
+  if(other&&other.hist&&other.hist[c.keys[0].k]&&other.hist[c.keys[0].k].length>1){
+    const oa=other.hist[c.keys[0].k];
+    g.beginPath(); g.setLineDash([3,3]);
+    for(let i=0;i<oa.length;i++){
+      const x=padL+iw*(i/(N-1)), y=padT+ih*(1-clamp(oa[i]/mx,0,1));
+      i?g.lineTo(x,y):g.moveTo(x,y);
+    }
+    g.strokeStyle="#93A1B5"; g.lineWidth=1.3; g.stroke(); g.setLineDash([]);
+  }
+  c.keys.forEach(k=>{
+    const arr=s.hist[k.k]; if(arr.length<2)return;
+    const n=arr.length;
+    g.beginPath();
+    for(let i=0;i<n;i++){
+      const x=padL+iw*(i/(N-1)), y=padT+ih*(1-clamp(arr[i]/mx,0,1));
+      i?g.lineTo(x,y):g.moveTo(x,y);
+    }
+    g.strokeStyle=k.c; g.lineWidth=1.8; g.lineJoin="round"; g.stroke();
+    if(c.keys.length===1){
+      g.lineTo(padL+iw*((n-1)/(N-1)),padT+ih); g.lineTo(padL,padT+ih); g.closePath();
+      const grd=g.createLinearGradient(0,padT,0,padT+ih);
+      grd.addColorStop(0,k.c+"38"); grd.addColorStop(1,k.c+"04");
+      g.fillStyle=grd; g.fill();
+    }
+  });
+  const arr=s.hist[c.keys[0].k], last=arr.length?arr[arr.length-1]:0;
+  g.fillStyle=c.keys[0].c; g.font="600 12px 'Segoe UI',sans-serif"; g.textAlign="right";
+  g.fillText(fmt(last,1),w-padR,padT+11); g.textAlign="left";
+}
+
+/* =========================================================================
+   KPI 迷你走势（sparkline）
+   时延/P95/GPU/带宽直接复用 hist 序列；超时率/吞吐/积压/能耗用页面维护的
+   滚动序列，在线（后端推流）与离线（本地引擎）口径一致。
+   ========================================================================= */
+const SPARK_SERIES={k3:[],k4:[],k7:[],k8:[]};
+const SPARK_MAX=120;
+function pushSpark(key,v){
+  const a=SPARK_SERIES[key]; if(!a||!isFinite(v))return;
+  a.push(v); if(a.length>SPARK_MAX)a.shift();
+}
+function drawSpark(id,series,color){
+  const cv=el(id); if(!cv)return;
+  const dpr=window.devicePixelRatio||1, w=cv.clientWidth||120, h=22;
+  if(cv.width!==Math.round(w*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const g=cv.getContext("2d");
+  g.setTransform(dpr,0,0,dpr,0,0);
+  g.clearRect(0,0,w,h);
+  if(!series||series.length<2)return;
+  let mx=0; for(const v of series) if(v>mx)mx=v;
+  if(mx<=0)mx=1;
+  const span=mx, n=series.length, step=w/Math.max(SPARK_MAX-1,1), x0=w-step*(n-1);
+  g.beginPath();
+  for(let i=0;i<n;i++){
+    const x=x0+step*i, y=h-2-(h-5)*(clamp(series[i]/span,0,1));
+    i?g.lineTo(x,y):g.moveTo(x,y);
+  }
+  g.strokeStyle=color; g.lineWidth=1.4; g.lineJoin="round"; g.stroke();
+  g.lineTo(x0+step*(n-1),h); g.lineTo(x0,h); g.closePath();
+  const grd=g.createLinearGradient(0,0,0,h);
+  grd.addColorStop(0,color+"30"); grd.addColorStop(1,color+"02");
+  g.fillStyle=grd; g.fill();
+}
+function drawSparks(s){
+  drawSpark("sp1",s.hist.lat,"#0B63F6");
+  drawSpark("sp2",s.hist.p95,"#E08A00");
+  drawSpark("sp3",SPARK_SERIES.k3,"#DC2626");
+  drawSpark("sp4",SPARK_SERIES.k4,"#12A150");
+  drawSpark("sp5",(s.hist.gpu||[]).map(v=>v*100),"#0891B2");
+  drawSpark("sp6",(s.hist.bw||[]).map(v=>v*100),"#7C3AED");
+  drawSpark("sp7",SPARK_SERIES.k7,"#7C3AED");
+  drawSpark("sp8",SPARK_SERIES.k8,"#0891B2");
+}
+
+/* =========================================================================
+   后端数据面板（纯 DOM 渲染，自身不发任何网络请求）
+   由注入的「接入层」在取得数据后调用；离线时保留占位，页面功能不受影响。
+   ========================================================================= */
+const UI={
+  esc(v){return String(v==null?"":v).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));},
+  setChip(id,cls,text,textId){
+    const e=el(id); if(!e)return;
+    e.className="sb"+(cls?" "+cls:"");
+    if(textId){const t=el(textId); if(t)t.textContent=text; return;}
+    const b=e.querySelector&&e.querySelector("b"); if(b)b.textContent=text;
+  },
+  net(online,info){
+    if(!online){
+      this.setChip("netChip","warn","本地内置","netText");
+      this.setChip("modelChip","","模型 v1 标定版","modelText");
+      this.setChip("hilChip","warn","未连接","hilText");
+      this.setChip("devChip","","0 在线 / 0 注册","devText");
+      return;
+    }
+    const h=info.hil||{};
+    const modeTxt={off:"纯仿真",shadow:"影子模式",hil:"硬件在环"}[h.mode]||"未连接";
+    this.setChip("netChip","ok","后端引擎","netText");
+    this.setChip("modelChip","ok","模型 "+(info.modelShort||info.model||"—"),"modelText");
+    this.setChip("hilChip",h.mode==="hil"?"ok":(h.mode==="shadow"?"warn":""),modeTxt,"hilText");
+    this.setChip("devChip",h.devicesOnline?"ok":"",(h.devicesOnline||0)+" 在线 / "+(h.devicesTotal||0)+" 注册","devText");
+  },
+  pump(text){const e=el("pumpText"); if(e)e.textContent=text||"—";},
+  renderHil(snap){
+    const box=el("hilDevices"); if(!box)return;
+    if(!snap||!snap.devices||!snap.devices.length){
+      box.innerHTML='<div class="empty">暂无设备接入 · 可用 <code>python -m backend.tools.hw_device_sim</code> 模拟一批设备验证链路</div>';
+      if(el("hilEvents"))el("hilEvents").innerHTML="";
+      if(el("hilTag"))el("hilTag").textContent="0 台设备";
+      return;
+    }
+    if(el("hilMode"))el("hilMode").value=snap.mode;
+    el("hilTag").textContent=(snap.modeLabel||"")+" · "+snap.health.devicesOnline+"/"+snap.health.devicesTotal+" 在线";
+    let rows="";
+    for(const d of snap.devices){
+      const dot=d.online?(d.role==="compute"?"doton":"dothw"):"dotoff";
+      const tgt=[];
+      for(const nid in (d.real.nodes||{}))tgt.push(nid);
+      for(const lid in (d.real.links||{}))tgt.push(lid);
+      const meas=[];
+      for(const nid in (d.real.nodes||{})){
+        const r=d.real.nodes[nid];
+        if(r.util!=null)meas.push("GPU "+(r.util*100).toFixed(0)+"%");
+        if(r.latMs!=null)meas.push("时延 "+r.latMs.toFixed(1)+"ms");
+      }
+      for(const lid in (d.real.links||{})){
+        const r=d.real.links[lid];
+        if(r.util!=null)meas.push(lid+" "+(r.util*100).toFixed(0)+"%");
+        if(r.rttMs!=null)meas.push("RTT "+r.rttMs.toFixed(1)+"ms");
+      }
+      rows+='<tr><td><span class="'+dot+'"></span> '+this.esc(d.deviceId)+'</td>'+
+        '<td><span class="tag2'+(d.role==="compute"?" sim":(d.role==="endpoint"?" warn":""))+'">'+this.esc(d.kind)+'</span></td>'+
+        '<td>'+(d.online?'<span class="st-ok">在线</span>':'<span class="st-miss">离线</span>')+'</td>'+
+        '<td class="mini">'+this.esc(tgt.slice(0,3).join(",")||"—")+'</td>'+
+        '<td class="mini">'+this.esc(meas.slice(0,3).join(" · ")||"—")+'</td>'+
+        '<td class="mini">'+(d.lastSeenMs==null?"—":(d.lastSeenMs/1000).toFixed(1)+"s")+'</td></tr>';
+    }
+    const h=snap.health, ovr=h.applied||{};
+    const nU=(ovr.nodesUnique!=null?ovr.nodesUnique:(ovr.nodes||0)/2);
+    const lU=(ovr.linksUnique!=null?ovr.linksUnique:(ovr.links||0)/2);
+    box.innerHTML='<div class="tbl-sm"><table><thead><tr><th>设备</th><th>类型</th><th>状态</th>'+
+      '<th>映射目标</th><th>实测</th><th>心跳</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+      '<div class="row" style="margin-top:8px"><span class="hint">遥测 '+h.telemetryTotal+' 条（错误 '+h.telemetryErrors+
+      '）｜指令待发 '+h.commandsPending+' / 已确认 '+h.commandsAcked+'｜实测覆盖 节点 '+nU+
+      ' · 链路 '+lU+(h.mode==="hil"?"（正在影响调度决策）":h.mode==="shadow"?"（仅对照，不干预）":"")+'</span></div>';
+    if(el("hilEvents"))el("hilEvents").innerHTML=(snap.events||[]).slice(-6).reverse().map(e=>
+      '<div class="ev '+this.esc(e.kind)+'"><b>'+this.esc(e.t)+'</b> '+this.esc(e.msg)+'</div>').join("");
+  },
+  expStatus(st){
+    if(!st||!el("expRun"))return;
+    if(st.running){el("expRun").disabled=true;el("expRun").textContent="实验进行中…";el("expTag").textContent="运行中";}
+    else{el("expRun").disabled=false;el("expRun").textContent="运行 AI vs 基线对照";}
+    if(st.error)el("expHint").innerHTML='<span class="chipwarn">上次实验失败：'+this.esc(st.error)+'</span>';
+  },
+  renderExperiment(run){
+    const box=el("expBody"); if(!box||!run)return;
+    if(el("expTag"))el("expTag").textContent="模型 "+(run.model||"")+" · "+((run.protocol||{}).durationMs||0)/1000+"s";
+    const a=((run.summary||{}).avgPct)||{};
+    const cell=(k,label,unit)=>{
+      const v=a[k];
+      if(v==null)return '<div><div class="k">'+label+'</div><div class="v">—</div></div>';
+      const good=v<0;
+      return '<div><div class="k">'+label+'（AI 相对基线）</div><div class="v '+(good?"good":"bad")+'">'+
+        (v>0?"+":"")+v.toFixed(1)+unit+'</div></div>';
+    };
+    let rows="";
+    for(const sc of (run.scenes||[])){
+      const d=sc.delta||{};
+      const f=x=>{if(!x)return '<span class="dim">—</span>';
+        return '<span class="'+(x.better?"up":"down")+'">'+(x.pct>0?"▲":"▼")+Math.abs(x.pct).toFixed(1)+'%</span>';};
+      rows+='<tr><td>'+this.esc(sc.scene)+'</td><td>'+sc.ai.avgLat.toFixed(1)+' <span class="dim">/ '+sc.bl.avgLat.toFixed(1)+'</span></td>'+
+        '<td>'+f(d.avgLat)+'</td><td>'+f(d.p95)+'</td>'+
+        '<td>'+f(d.missRate)+' <span class="dim mini">'+sc.ai.missRate.toFixed(1)+'/'+sc.bl.missRate.toFixed(1)+'</span></td>'+
+        '<td>'+f(d.energyPerTask)+'</td></tr>';
+    }
+    const comp=(run.scenes||[]).reduce((x,sc)=>x+((sc.compress||{}).count||0),0);
+    const saved=(run.scenes||[]).reduce((x,sc)=>x+((sc.compress||{}).savedMB||0),0);
+    box.innerHTML='<div class="exp-sum">'+cell("avgLat","平均时延","%")+cell("p95","P95 时延","%")+
+      cell("missRate","超时率","pt")+cell("energyPerTask","单位能耗","%")+'</div>'+
+      '<div class="tbl-sm" style="margin-top:9px"><table><thead><tr><th>场景</th><th>均时延 AI/基线</th>'+
+      '<th>Δ时延</th><th>ΔP95</th><th>Δ超时率</th><th>Δ能耗</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+      '<div class="row" style="margin-top:8px"><span class="hint">实验号 '+this.esc(run.id)+'｜用时 '+run.elapsedSec+
+      's｜协议 '+(run.protocol||{}).dtMs+'ms × '+(run.protocol||{}).durationMs+'ms / 种子 '+(run.protocol||{}).seed+
+      (comp?'｜通算权衡：'+comp+' 个任务降采样上传，省下 '+saved.toFixed(0)+' MB 现场总线流量':'')+'</span></div>'+
+      '<div class="row"><span class="hint">完整报告与历史：<code>GET /api/report?format=txt</code> · <code>GET /api/runs</code></span></div>';
+  },
+  renderModels(list,active,activeModel){
+    const sel=el("modelSel"); if(!sel||!list)return;
+    sel.innerHTML=list.map(m=>'<option value="'+this.esc(m.id)+'"'+(m.id===active?" selected":"")+'>'+
+      this.esc(m.short||m.name)+(m.default?"（默认）":"")+'</option>').join("");
+    if(activeModel)this.renderModelCard(activeModel);
+  },
+  renderModelCard(m){
+    const box=el("modelCard"); if(!box||!m)return;
+    if(el("modelCardTag"))el("modelCardTag").textContent="后端模型 "+(m.short||m.id);
+    let html='<div class="fml mono">'+this.esc(m.formula||"")+'</div>';
+    for(const c of (m.cards||[])){
+      html+='<div style="margin-top:6px"><b>'+this.esc(c.t)+'</b>：'+c.b+'</div>';
+    }
+    box.innerHTML=html;
+  },
+  /* 节点权重面板（算法动态分配；先验偏置为可选） */
+  renderWeights(st){
+    if(!st)return;
+    const pri=(st.priors||st.weights||{});
+    for(const id of ["local","edgeA","edgeB","cloud"]){
+      const inp=el("w-"+id);
+      if(inp&&pri[id]!==undefined&&document.activeElement!==inp)inp.value=pri[id].toFixed(1);
+    }
+    const ai=st.ai||{};
+    const parts=[];
+    for(const id of ["local","edgeA","edgeB","cloud"]){
+      const a=ai[id];
+      if(a)parts.push(id+" 权重"+a.dynamic.toFixed(2)+"(质"+a.quality.toFixed(2)+")/压力"+(a.pressure||0).toFixed(2)+
+        (a.locked?"/锁定":""));
+    }
+    if(el("wState"))el("wState").textContent="算法动态分配 ｜ "+parts.join(" · ");
+  },
+  toast(msg,kind){
+    try{
+      const old=document.getElementById("__toast");
+      if(old&&old.parentNode)old.parentNode.removeChild(old);
+      const d=document.createElement("div");
+      d.id="__toast";
+      d.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:99999;"+
+        "background:"+(kind==="bad"?"#B91C1C":(kind==="warn"?"#A15C00":"#0A2A5E"))+";color:#fff;"+
+        "padding:8px 16px;border-radius:20px;font:12px/1.4 'Segoe UI','Microsoft YaHei',sans-serif;"+
+        "box-shadow:0 8px 22px rgba(10,42,94,.35)";
+      d.textContent=msg;
+      if(document.body&&document.body.appendChild)document.body.appendChild(d);
+      setTimeout(()=>{try{if(d.parentNode)d.parentNode.removeChild(d);else if(d.remove)d.remove();}catch(e){}},2600);
+    }catch(e){ /* 环境不支持浮层时静默降级 */ }
+  }
+};
+
+/* =========================================================================
+   侧栏 UI
+   ========================================================================= */
+function buildNodeCards(){
+  el("nodes").innerHTML=simAI.nodes.map(n=>`
+    <div class="node" data-n="${n.id}">
+      <div class="nh"><span class="sq" style="background:${n.color}"></span>${n.name}<em>${n.tag}</em></div>
+      <div class="gpu">${'<i></i>'.repeat(12)}</div>
+      <div class="nmeta"><span>GPU <b class="u">0%</b></span><span class="q">队列 0</span></div>
+      <div class="bar"><span style="width:0%;background:${n.color}"></span></div>
+      <div class="nmeta" style="margin-top:5px"><span>吞吐 <b class="d">0</b> 个</span><span>均时延 <b class="l">—</b>ms</span></div>
+      <div class="nmeta" style="margin-top:3px"><span>算法权重 <b class="wt">1.00</b></span><span>压力 <b class="pr">0.00</b></span></div>
+    </div>`).join("");
+}
+function buildLinkCards(){
+  el("links").innerHTML=simAI.links.map(l=>`
+    <div class="lk" data-l="${l.id}">
+      <div class="lh"><b>${l.name}</b><span class="v">0.00 / ${l.cap.toFixed(1)} Gbps</span></div>
+      <div class="bar" style="height:8px"><span style="width:0%"></span></div>
+    </div>`).join("");
+}
+function deltaHtml(a,bv,inv,lab){
+  if(!isFinite(bv)||bv<=0||a<=0) return '<span class="dim">对照中…</span>';
+  const d=(a-bv)/bv*100, good=inv?d>0:d<0;
+  return `<span class="${good?'up':'down'}">${d>0?'▲':'▼'} ${Math.abs(d).toFixed(1)}%</span> <span class="dim">vs ${lab||"静态规则"}</span>`;
+}
+function updateUI(){
+  /* 主视图跟随所选策略（viewMode），对照箭头指向另一策略 */
+  const s=viewMode==="ai"?simAI:simBL;
+  const b=viewMode==="ai"?simBL:simAI;
+  const pName=viewMode==="ai"?"AI 协同调度":"静态规则基线";
+  const oName=viewMode==="ai"?"静态规则":"AI 协同调度";
+  const aL=avgLat(s),aP=p95(s),aM=s.stat.n?s.stat.miss/s.stat.n*100:0;
+  const aG=s.nodes.reduce((x,n)=>x+clamp(n.util,0,1),0)/s.nodes.length*100;
+  const aB=Math.max(...s.links.map(l=>clamp(l.util,0,1)))*100;
+  const bL=avgLat(b),bP=p95(b),bM=b.stat.n?b.stat.miss/b.stat.n*100:0;
+  const bG=b.nodes.reduce((x,n)=>x+clamp(n.util,0,1),0)/b.nodes.length*100;
+  const bB=Math.max(...b.links.map(l=>clamp(l.util,0,1)))*100;
+  const aE=energyPerTask(s),bE=energyPerTask(b);
+
+  el("k1").textContent=fmt(aL,1); el("k2").textContent=fmt(aP,0);
+  el("k3").textContent=fmt(aM,1); el("k4").textContent=fmt(s.throughput,1);
+  el("k5").textContent=fmt(aG,0); el("k6").textContent=fmt(aB,0);
+  el("k7").textContent=s.tasks.length; el("k8").textContent=fmt(aE,3);
+  el("kd1").innerHTML=deltaHtml(aL,bL,0,oName); el("kd2").innerHTML=deltaHtml(aP,bP,0,oName);
+  el("kd3").innerHTML=deltaHtml(aM,bM,0,oName); el("kd4").innerHTML=deltaHtml(s.throughput,b.throughput,true,oName);
+  el("kd5").innerHTML=deltaHtml(aG,bG,0,oName); el("kd6").innerHTML=deltaHtml(aB,bB,0,oName);
+  el("kd7").innerHTML=`<span class="dim">传输中 ${s.tasks.filter(t=>t.state==="transfer").length} · 计算中 ${s.tasks.filter(t=>t.state==="compute").length}</span>`;
+  el("kd8").innerHTML=deltaHtml(aE,bE,0,oName);
+
+  const rows=[
+    {k:"平均端到端时延 (ms)",a:aL,b:bL,u:1},
+    {k:"P95 时延 (ms)",a:aP,b:bP,u:0},
+    {k:"任务超时率 (%)",a:aM,b:bM,u:1},
+    {k:"单位任务能耗 (u)",a:aE,b:bE,u:3},
+    {k:"边缘+云端承载率 (%)",a:s.stat.n?(s.stat.edge+s.stat.cloud)/s.stat.n*100:0,b:b.stat.n?(b.stat.edge+b.stat.cloud)/b.stat.n*100:0,u:1},
+  ];
+  el("cmp").innerHTML=rows.map(r=>{
+    const mx=Math.max(r.a,r.b,1e-4);
+    return `<div class="crow">
+      <div class="cl"><span>${r.k}</span><b>${fmt(r.a,r.u)} <span class="dim">/ ${fmt(r.b,r.u)}</span></b></div>
+      <div class="track tk-ai"><span style="width:${clamp(r.a/mx*100,2,100)}%"></span></div>
+      <div class="track tk-bl"><span style="width:${clamp(r.b/mx*100,2,100)}%"></span></div>
+      <div class="cm"><span>${pName}</span><span>${oName}</span></div>
+    </div>`;
+  }).join("");
+
+  el("nodes").querySelectorAll(".node").forEach(nd=>{
+    const n=s.nodeById[nd.dataset.n], u=clamp(n.util,0,1);
+    const col=u>0.85?"#DC2626":(u>0.6?"#E08A00":n.color);
+    const cells=nd.querySelectorAll(".gpu i"), lit=Math.round(u*cells.length);
+    cells.forEach((c,i)=>c.style.background=i<lit?col:"#EDF1F8");
+    nd.querySelector(".u").textContent=(u*100).toFixed(0)+"%";
+    nd.querySelector(".q").textContent="队列 "+n.running.length+(n.hwOverride?" · 实测":"");
+    nd.querySelector(".bar>span").style.width=(u*100).toFixed(1)+"%";
+    nd.querySelector(".d").textContent=n.done;
+    nd.querySelector(".l").textContent=n.done?fmt(n.latSum/n.done,0):"—";
+    /* 算法动态分配的节点权重 + 压力：偏离 1.0 时高亮 */
+    const wt=nd.querySelector(".wt"), pr=nd.querySelector(".pr");
+    if(wt){
+      const wv=(n.weightEff!==undefined?n.weightEff:1)||1;
+      wt.textContent=wv.toFixed(2);
+      wt.style.color=wv>1.05?"#12A150":(wv<0.95?"#DC2626":"");
+    }
+    if(pr){
+      const pv=n.pressure||0;
+      pr.textContent=pv.toFixed(2);
+      pr.style.color=pv>0.75?"#DC2626":(pv>0.4?"#E08A00":"");
+    }
+    /* 硬件在环：被实测覆盖的节点加紫色描边，一眼看出哪些数据来自真实硬件 */
+    if(nd.style){
+      nd.style.borderColor=n.hwOverride?"#7C3AED":"";
+      nd.style.boxShadow=n.hwOverride?"0 0 0 2px rgba(124,58,237,.14)":"";
+    }
+  });
+  el("links").querySelectorAll(".lk").forEach(ld=>{
+    const l=s.linkById[ld.dataset.l];
+    ld.querySelector(".v").textContent=`${l.load.toFixed(2)} / ${l.capS.toFixed(1)} Gbps`+(l.hwOverride?" · 实测":"");
+    const bar=ld.querySelector(".bar>span");
+    bar.style.width=clamp(l.util*100,0,100).toFixed(1)+"%";
+    bar.style.background=linkColor(l.util);
+  });
+  const totCap=s.nodes.reduce((a,n)=>a+n.cap,0);
+  const totUse=s.nodes.reduce((a,n)=>a+clamp(n.util,0,1)*n.cap,0);
+  el("nodeTag").textContent=`总负载 ${totUse.toFixed(1)} / ${totCap} TFLOPS`;
+
+  /* 任务表 */
+  const tb=el("tbody"), lastT=s.table[s.table.length-1];
+  if(lastT&&lastT.id!==s.lastUid){
+    s.lastUid=lastT.id;
+    const T=TYPES[lastT.type],D=DEV_BY_ID[lastT.dev],N=s.nodeById[lastT.nodeId];
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td><span class="chip" style="background:${T.color}1A;color:${T.color}"><i style="background:${T.color}"></i>${T.short}</span></td>
+      <td>${D.name}</td><td>${N.name}</td><td><b>${fmt(lastT.lat,1)}</b></td>
+      <td class="dim">${lastT.dl}</td><td class="${lastT.miss?'st-miss':'st-ok'}">${lastT.miss?'超时':'达标'}</td>`;
+    tb.insertBefore(tr,tb.firstChild);
+    while(tb.children.length>40)tb.removeChild(tb.lastChild);
+  }
+  /* 决策日志 */
+  const lg=el("log"), slice=s.log.slice(-12);
+  if(slice.length){
+    lg.innerHTML=slice.map(e=>{
+      const T=TYPES[e.type];
+      return `<div class="lgi"><b style="color:${T.color}">${T.short}</b> → <b>${e.node}</b> ·
+        预估 <b>${e.lat.toFixed(0)}ms</b> / 截止 ${e.dl}ms
+        <span class="dim">${e.ok?'✓ 可满足':'✕ 紧约束'}</span>
+        <span class="why">${e.reason}</span></div>`;
+    }).join("");
+  }else{
+    lg.innerHTML='<div class="lgi dim">静态规则基线不做在线推理，因此没有决策日志。切回「AI 协同调度」即可查看每一步的综合代价评估与节点选择依据。</div>';
+  }
+  lg.scrollTop=lg.scrollHeight;
+  el("clock").textContent="T+"+String(Math.floor(s.t/60000)).padStart(2,"0")+":"+String(Math.floor(s.t/1000)%60).padStart(2,"0");
+
+  /* KPI 迷你走势 */
+  pushSpark("k3",aM); pushSpark("k4",s.throughput);
+  pushSpark("k7",s.tasks.length); pushSpark("k8",aE);
+  drawSparks(s);
+}
+
+/* =========================================================================
+   主循环
+   ========================================================================= */
+function frame(now){
+  const dtR=Math.min(64,now-lastFrame); lastFrame=now;
+  if(!paused){
+    const dtSim=dtR*TSCALE*simSpeed, N=2, h=dtSim/N, t0=simAI.t;
+    for(let i=0;i<N;i++){
+      const tt=t0+h*(i+1);
+      step(simAI,h,params,tt);
+      step(simBL,h,params,tt);
+    }
+  }
+  const pv=viewMode==="ai"?simAI:simBL;
+  const pvOther=viewMode==="ai"?simBL:simAI;
+  drawTopo(pv);
+  CHARTS.forEach(c=>drawChart(c,pv,pvOther));
+  uiAcc+=dtR;
+  if(uiAcc>180){ uiAcc=0; updateUI(); }
+  requestAnimationFrame(frame);
+}
+
+/* =========================================================================
+   交互
+   ========================================================================= */
+el("scene").addEventListener("change",e=>{
+  params=cloneScene(e.target.value);
+  el("rate").value=params.rate; el("rateV").textContent=params.rate+"/s";
+  el("topoTag").textContent=e.target.selectedOptions[0].textContent;
+  reset();
+});
+el("rate").addEventListener("input",e=>{params.rate=+e.target.value;el("rateV").textContent=e.target.value+"/s";});
+el("speed").addEventListener("input",e=>{simSpeed=+e.target.value/10;el("speedV").textContent=simSpeed.toFixed(1)+"×";});
+el("btnAI").addEventListener("click",()=>{
+  /* 策略视图切换：两个仿真体始终同种子并行推进、保持同步，
+     因此切换只是更换「主视图驱动策略」，两侧指标始终可直接对照。 */
+  viewMode = viewMode==="ai" ? "bl" : "ai";
+  const on = viewMode==="ai";
+  el("btnAI").classList.toggle("on",on);
+  el("btnAI").textContent = on?"AI 协同调度":"静态规则基线";
+  el("modeTag").textContent = on?"AI 协同调度 · 双轨对照中":"静态规则基线 · 双轨对照中";
+  el("topoTag").textContent = on?"现场层 → 边缘层 → 云端":"现场层 → 边缘层 → 云端（静态规则执行）";
+  updateUI();
+});
+el("btnPause").addEventListener("click",e=>{
+  paused=!paused; e.target.textContent=paused?"继续":"暂停";
+  e.target.classList.toggle("on",paused); lastFrame=performance.now();
+});
+el("btnReset").addEventListener("click",()=>{reset();sizeCharts();});
+
+/* ---------------- 后端面板交互（离线时给出提示，不影响本地引擎） ---------------- */
+function backendCall(name,args,offlineMsg){
+  if(window.Backend&&typeof window.Backend[name]==="function") return window.Backend[name].apply(null,args||[]);
+  UI.toast(offlineMsg||"该功能需要连接后端（点击右下角徽标可重试探测）","warn");
+  return null;
+}
+el("hilMode").addEventListener("change",e=>backendCall("setHilMode",[e.target.value]));
+el("hilRefresh").addEventListener("click",()=>backendCall("refreshHil"));
+el("hilSim").addEventListener("click",()=>{
+  UI.toast("本机启动设备模拟器：python -m backend.tools.hw_device_sim --duration 30");
+});
+el("modelApply").addEventListener("click",()=>backendCall("setModel",[el("modelSel").value]));
+el("expRun").addEventListener("click",()=>backendCall("runExperiment",[{
+  durationMs:+el("expDur").value,
+  scenes:el("expScope").value==="all"?null:el("expScope").value.split(",")
+}]));
+el("btnRefresh").addEventListener("click",()=>backendCall("refreshAll"));
+el("btnSchema").addEventListener("click",()=>backendCall("openSchema"));
+el("wApply").addEventListener("click",()=>{
+  const w={};
+  for(const id of ["local","edgeA","edgeB","cloud"]) w[id]=parseFloat(el("w-"+id).value)||1.0;
+  backendCall("setWeights",[w]);
+});
+el("wNeutral").addEventListener("click",()=>backendCall("resetWeights"));
+for(const id of ["local","edgeA","edgeB","cloud"]){
+  el("w-"+id).addEventListener("change",()=>{
+    const w={}; for(const k of ["local","edgeA","edgeB","cloud"]) w[k]=parseFloat(el("w-"+k).value)||1.0;
+    backendCall("setWeights",[w]);
+  });
+}
+
+/* 离线/在线初始状态 */
+UI.net(false,null);
+UI.pump("本地引擎 · 无推流");
+
+/* 启动 */
+sizeTopo(); sizeCharts(); reset(); updateUI();
+requestAnimationFrame(frame);
+</script>
+
+<!-- ===== 后端接入层（由 backend/build_frontend.py 注入，可重复生成） ===== -->
+<script>
+/* =============================================================================
+ * 工业智算网 · 后端接入层（适配器）
+ * -----------------------------------------------------------------------------
+ * 设计要点（保持「后端权威仿真 + 本地离线引擎」两者兼顾）：
+ *   1. 不修改原页面任何一行渲染/仿真代码，只作为第二个 <script> 覆盖两个入口：
+ *        - step()：在线时短路，禁止浏览器重复推进仿真（后端才是权威时钟）
+ *        - p95() ：在线时直接取后端算好的分位值
+ *   2. 通过 SSE 接收后端 10Hz 状态快照，把 simAI / simBL 两个对象「原地水合」
+ *      （属性级写入，保持对象与数组引用语义），原有的 drawTopo / drawChart /
+ *      updateUI 全部零改动地渲染后端数据。
+ *   3. 后端不可达时自动回退为原始纯前端引擎，页面功能完全不受影响。
+ *   4. 控制指令（场景 / 强度 / 速度 / 暂停 / 重置）双写：本地生效 + 后端同步。
+ * ========================================================================== */
+(function () {
+  "use strict";
+
+  if (typeof simAI === "undefined" || typeof simBL === "undefined") {
+    return; // 页面不完整（缺少引擎），不做任何处理
+  }
+
+  var BASES = window.__DSH_BACKEND_BASES__ || ["", "http://127.0.0.1:8787", "http://localhost:8787"];
+
+  var S = {
+    base: "",
+    online: false,
+    everOnline: false,
+    es: null,
+    poll: null,
+    probe: null,
+    lastMsg: 0,
+    msgCount: 0,
+    hz: 0,
+    fails: 0,
+    snap: null
+  };
+
+  var badgeEl, dotEl, txtEl;
+
+  /* ------------------------------------------------------------------ 工具 */
+  function $(id) { return document.getElementById(id); }
+
+  function api(path, opts, timeoutMs) {
+    var url = S.base + path;
+    if (!timeoutMs || typeof AbortController === "undefined") return fetch(url, opts);
+    var ac = new AbortController();
+    var timer = setTimeout(function () { ac.abort(); }, timeoutMs);
+    var o = opts || {};
+    o.signal = ac.signal;
+    return fetch(url, o).then(function (r) {
+      clearTimeout(timer);
+      return r;
+    }, function (e) {
+      clearTimeout(timer);
+      throw e;
+    });
+  }
+
+  function probeBase(base) {
+    return new Promise(function (resolve) {
+      var ac = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = ac ? setTimeout(function () { ac.abort(); }, 1600) : null;
+      var init = { cache: "no-store" };
+      if (ac) init.signal = ac.signal;
+      fetch(base + "/api/health", init).then(function (r) {
+        if (timer) clearTimeout(timer);
+        return r.ok ? r.json() : null;
+      }).then(function (j) {
+        resolve(j && j.ok ? { base: base, health: j } : null);
+      }).catch(function () {
+        if (timer) clearTimeout(timer);
+        resolve(null);
+      });
+    });
+  }
+
+  /* ------------------------------------------------------- 后端状态 → UI 同步 */
+  function syncFromState(st) {
+    if (!st) return;
+    var sel = $("scene");
+    if (sel && st.scene && sel.value !== st.scene) {
+      sel.value = st.scene;
+      if (sel.selectedOptions && sel.selectedOptions[0] && $("topoTag")) {
+        $("topoTag").textContent = sel.selectedOptions[0].textContent;
+      }
+    }
+    try {
+      params = cloneScene(st.scene);
+      params.rate = st.rate;
+    } catch (e) { /* 忽略 */ }
+
+    var r = $("rate");
+    if (r) { r.value = st.rate; if ($("rateV")) $("rateV").textContent = st.rate + "/s"; }
+
+    simSpeed = st.speed;
+    var sp = $("speed");
+    if (sp) {
+      sp.value = Math.max(5, Math.min(40, Math.round(st.speed * 10)));
+      if ($("speedV")) $("speedV").textContent = st.speed.toFixed(1) + "×";
+    }
+
+    paused = !!st.paused;
+    var bp = $("btnPause");
+    if (bp) { bp.textContent = paused ? "继续" : "暂停"; bp.classList.toggle("on", paused); }
+
+    viewMode = st.view === "bl" ? "bl" : "ai";
+  }
+
+  /* --------------------------------------------- 快照 → 仿真对象「原地水合」 */
+  function hydrateTasks(sim, snap, seen) {
+    sim._tm = sim._tm || {};
+    var pool = sim._tm, list = [], i, t, o;
+    for (i = 0; i < snap.tasks.length; i++) {
+      t = snap.tasks[i];
+      o = pool[t.id];
+      if (!o) { o = { id: t.id, type: t.type, T: TYPES[t.type] }; pool[t.id] = o; }
+      o.state = t.state;
+      o.nodeId = t.nodeId;
+      o.devId = t.devId;
+      o.devY = t.devY;
+      o.visT = t.visT;
+      o.visDur = t.visDur;
+      o.deadline = t.deadline;
+      o.prio = t.prio;
+      o.bwEff = t.bwEff;
+      o.workLeft = t.workLeft;
+      o.bytesLeft = t.bytesLeft;
+      if (!o.path || o._pn !== t.nodeId || o._py !== t.devY) {
+        o.path = buildPath(t.nodeId, t.devY);
+        o._pn = t.nodeId;
+        o._py = t.devY;
+      }
+      seen[t.id] = 1;
+      list.push(o);
+    }
+    for (var k in pool) { if (!seen[k]) delete pool[k]; }
+    sim.tasks = list;
+  }
+
+  function hydrate(sim, snap) {
+    if (!sim || !snap) return;
+    sim.t = snap.t;
+    sim.throughput = snap.throughput;
+    sim.mode = snap.mode;
+    sim.limitHit = snap.limitHit;
+
+    var d = snap.stat, st = sim.stat;
+    st.n = d.n; st.latSum = d.latSum; st.miss = d.miss; st.energy = d.energy;
+    st.work = d.work; st.bytes = d.bytes; st.cloud = d.cloud; st.edge = d.edge;
+    st.local = d.local; st.active = d.active; st.p95 = d.p95;
+
+    var seen = {};
+    hydrateTasks(sim, snap, seen);
+
+    sim._nm = sim._nm || {};
+    var nPool = sim._nm, nodes = [], byId = {}, i, j, n, no, run, tk;
+    for (i = 0; i < snap.nodes.length; i++) {
+      n = snap.nodes[i];
+      no = nPool[n.id];
+      if (!no) {
+        no = { id: n.id, name: n.name, tag: n.tag, color: n.color, cap: n.cap,
+               x: n.x, y: n.y, w: n.w, h: n.h, lat: n.lat, reserve: n.reserve };
+        nPool[n.id] = no;
+      }
+      no.util = n.util; no.utilS = n.utilS; no.backlog = n.backlog; no.pending = n.pending;
+      no.done = n.done; no.latSum = n.latSum; no.workSum = n.workSum;
+      no.rtLoad = n.rtLoad; no.loLoad = n.loLoad;
+      run = [];
+      for (j = 0; j < n.running.length; j++) {
+        tk = sim._tm[n.running[j]];
+        if (tk) run.push(tk);
+      }
+      no.running = run;
+      nodes.push(no);
+      byId[n.id] = no;
+    }
+    sim.nodes = nodes;
+    sim.nodeById = byId;
+
+    sim._lm = sim._lm || {};
+    var lPool = sim._lm, links = [], lById = {}, l, lo;
+    for (i = 0; i < snap.links.length; i++) {
+      l = snap.links[i];
+      lo = lPool[l.id];
+      if (!lo) { lo = { id: l.id, name: l.name, cap: l.cap, color: l.color }; lPool[l.id] = lo; }
+      lo.capS = l.capS; lo.demand = l.demand; lo.act = l.act; lo.load = l.load;
+      lo.util = l.util; lo.utilS = l.utilS;
+      links.push(lo);
+      lById[l.id] = lo;
+    }
+    sim.links = links;
+    sim.linkById = lById;
+
+    sim.table = snap.table;
+    sim.log = snap.log;
+    sim.typeStat = snap.typeStat;
+    sim.hist = snap.hist;
+  }
+
+  /* --------------------------------------------------------- 覆盖仿真入口点 */
+  var _origStep = step;
+  var _origP95 = p95;
+
+  step = function (s, dt, p, t) {
+    if (S.online) return;          // 在线：后端是唯一权威时钟，浏览器不再推进
+    return _origStep(s, dt, p, t);
+  };
+
+  p95 = function (s) {
+    if (S.online && s && s.stat && typeof s.stat.p95 === "number") return s.stat.p95;
+    return _origP95(s);
+  };
+
+  /* ----------------------------------------------------------------- 推流 */
+  function applySnapshot(snap) {
+    if (!snap) return;
+    S.snap = snap;
+    S.lastMsg = Date.now();
+    S.msgCount++;
+    if (S.winStart === undefined) { S.winStart = Date.now(); S.winCount = 0; }
+    S.winCount++;
+    var dtWin = Date.now() - S.winStart;
+    if (dtWin >= 1000) {
+      S.hz = Math.round(S.winCount * 1000 / dtWin);
+      S.winStart = Date.now();
+      S.winCount = 0;
+    }
+    hydrate(simAI, snap.ai);
+    hydrate(simBL, snap.bl);
+    try {
+      UI.net(true, snap);
+      UI.pump("推流 " + (S.hz || 0) + "Hz · 仿真 T+" + (snap.tSim / 1000).toFixed(0) + "s · 客户端 " + snap.clients);
+    } catch (e) { /* 忽略 */ }
+    updateBadge();
+  }
+
+  function openStream() {
+    if (S.es) { try { S.es.close(); } catch (e) {} S.es = null; }
+    if (S.poll) { clearInterval(S.poll); S.poll = null; }
+    if (typeof EventSource === "undefined") { startPolling(); return; }
+    var url = S.base + "/api/stream";
+    var es;
+    try { es = new EventSource(url); } catch (e) { startPolling(); return; }
+    S.es = es;
+    es.addEventListener("state", function (ev) {
+      S.fails = 0;
+      try { applySnapshot(JSON.parse(ev.data)); } catch (e) { /* 忽略坏帧 */ }
+    });
+    es.addEventListener("hello", function () { S.fails = 0; });
+    es.onerror = function () {
+      S.fails++;
+      if (S.fails >= 4) goOffline("推流中断");
+    };
+  }
+
+  function startPolling() {
+    S.poll = setInterval(function () {
+      api("/api/state", { cache: "no-store" }, 2000).then(function (r) {
+        return r.ok ? r.json() : null;
+      }).then(function (j) {
+        if (j && j.snapshot) applySnapshot(j.snapshot);
+      }).catch(function () {
+        S.fails++;
+        if (S.fails >= 6) goOffline("轮询失败");
+      });
+    }, 250);
+  }
+
+  /* ------------------------------------------------------------- 连接管理 */
+  function connect(base, health) {
+    S.base = base;
+    S.online = true;
+    S.everOnline = true;
+    S.fails = 0;
+    if (health && health.sim) syncFromState(health.sim);
+    openStream();
+    // 让后端对齐当前 UI 参数，避免「界面 9/s、后端 11/s」这类漂移
+    post("scene", $("scene") ? $("scene").value : "normal", true);
+    post("rate", params ? params.rate : 11, true);
+    post("speed", simSpeed, true);
+    post("pause", !!paused, true);
+    updateBadge();
+    startPanels();
+    refreshAll();
+  }
+
+  function goOffline(reason) {
+    var was = S.online;
+    S.online = false;
+    if (S.es) { try { S.es.close(); } catch (e) {} S.es = null; }
+    if (S.poll) { clearInterval(S.poll); S.poll = null; }
+    stopPanels();
+    if (was) {
+      // 丢弃被水合过的渲染镜像，重建干净的本地引擎状态
+      try { reset(); } catch (e) { /* 忽略 */ }
+      try { updateUI(); } catch (e) { /* 忽略 */ }
+    }
+    try {
+      UI.net(false, null);
+      UI.pump("本地引擎 · 无推流");
+      UI.renderHil(null);
+      UI.expStatus({ running: false, error: null });
+      UI.hilHint("未连接后端 · 当前由页面内置引擎（v1）运行；接入硬件需先启动后端。");
+    } catch (e) { /* 忽略 */ }
+    updateBadge(reason);
+  }
+
+  function autoConnect() {
+    if (S.probe) return;
+    var i = 0;
+    S.probe = (function next() {
+      if (i >= BASES.length || S.online) { S.probe = null; return; }
+      return probeBase(BASES[i++]).then(function (hit) {
+        if (hit) {
+          S.probe = null;
+          connect(hit.base, hit.health);
+          return null;
+        }
+        return next();
+      });
+    })();
+  }
+
+  function post(action, value, silent) {
+    if (!S.online) return Promise.resolve(null);
+    return api("/api/control", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: action, value: value })
+    }, 3000).then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { if (!silent) updateBadge("指令失败"); return null; });
+  }
+
+  /* --------------------------------------------------------------- 状态徽标 */
+  function updateBadge(extra) {
+    if (!badgeEl) return;
+    if (S.online) {
+      badgeEl.style.background = "#0A2A5E";
+      dotEl.style.background = S.lastMsg && Date.now() - S.lastMsg > 2000 ? "#F59E0B" : "#4ADE80";
+      var label = S.snap ? "T+" + (S.snap.ai.t / 1000).toFixed(1) + "s" : "连接中";
+      txtEl.textContent = "后端引擎 · " + label + (S.hz ? " · " + S.hz + "Hz" : "");
+    } else {
+      badgeEl.style.background = "#7A2E00";
+      dotEl.style.background = "#F59E0B";
+      txtEl.textContent = "本地离线引擎" + (extra ? " · " + extra : "");
+    }
+  }
+
+  function buildBadge() {
+    badgeEl = document.createElement("div");
+    badgeEl.style.cssText =
+      "position:fixed;right:14px;bottom:14px;z-index:99999;display:flex;align-items:center;" +
+      "gap:8px;color:#fff;border-radius:20px;padding:6px 12px;cursor:pointer;" +
+      "font:12px/1.4 'Segoe UI','Microsoft YaHei',system-ui,sans-serif;" +
+      "box-shadow:0 6px 18px rgba(10,42,94,.35);transition:background .25s";
+    badgeEl.title = "点击切换：后端权威引擎 / 本地内置引擎";
+    dotEl = document.createElement("span");
+    dotEl.style.cssText = "width:8px;height:8px;border-radius:50%;background:#F59E0B;flex:none";
+    txtEl = document.createElement("span");
+    txtEl.textContent = "探测后端…";
+    badgeEl.appendChild(dotEl);
+    badgeEl.appendChild(txtEl);
+    badgeEl.addEventListener("click", function () {
+      if (S.online) goOffline("已手动切换");
+      else { txtEl.textContent = "重新探测后端…"; S.fails = 0; autoConnect(); }
+    });
+    document.body.appendChild(badgeEl);
+    updateBadge();
+  }
+
+  /* --------------------------------------------------- 面板数据（HIL / 模型 / 实验） */
+  function startPanels() {
+    stopPanels();
+    S.panelTimer = setInterval(function () {
+      if (!S.online) return;
+      if (S.hilBusy) return;
+      refreshHil();
+    }, 1500);
+    S.modelTimer = setInterval(function () {
+      if (!S.online) return;
+      refreshModels();
+      refreshExperimentState();
+    }, 4000);
+  }
+
+  function stopPanels() {
+    if (S.panelTimer) { clearInterval(S.panelTimer); S.panelTimer = null; }
+    if (S.modelTimer) { clearInterval(S.modelTimer); S.modelTimer = null; }
+    if (S.expTimer) { clearInterval(S.expTimer); S.expTimer = null; }
+  }
+
+  function refreshHil() {
+    if (!S.online) return Promise.resolve(null);
+    S.hilBusy = true;
+    return api("/api/hw/devices", { cache: "no-store" }, 4000).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (j) {
+      S.hilBusy = false;
+      if (!j) return null;
+      UI.renderHil(j);
+      S.hil = j;
+      return j;
+    }).catch(function () { S.hilBusy = false; return null; });
+  }
+
+  function refreshModels() {
+    if (!S.online) return Promise.resolve(null);
+    return api("/api/models", { cache: "no-store" }, 4000).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (j) {
+      if (!j) return null;
+      return api("/api/model", { cache: "no-store" }, 4000).then(function (r) {
+        return r.ok ? r.json() : null;
+      }).then(function (a) {
+        UI.renderModels(j.models, a ? a.active : j.default, a ? a.model : null);
+        S.models = j;
+        return j;
+      });
+    }).catch(function () { return null; });
+  }
+
+  function refreshExperimentState() {
+    if (!S.online) return Promise.resolve(null);
+    return api("/api/experiment", { cache: "no-store" }, 4000).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (j) {
+      if (!j) return null;
+      var st = j.experiment;
+      UI.expStatus(st);
+      if (st.running) {
+        if (!S.expTimer) {
+          S.expTimer = setInterval(function () { checkExperimentDone(st.startedAt); }, 900);
+        }
+      }
+      return st;
+    }).catch(function () { return null; });
+  }
+
+  function checkExperimentDone(startedAt) {
+    api("/api/experiment", { cache: "no-store" }, 4000).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (j) {
+      if (!j) return;
+      UI.expStatus(j.experiment);
+      if (!j.experiment.running) {
+        if (S.expTimer) { clearInterval(S.expTimer); S.expTimer = null; }
+        loadLatestReport();
+      }
+    }).catch(function () {});
+  }
+
+  function loadLatestReport() {
+    return api("/api/report?format=json", { cache: "no-store" }, 8000).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (j) {
+      if (j && j.run) UI.renderExperiment(j.run);
+      return j;
+    }).catch(function () { return null; });
+  }
+
+  function refreshWeights() {
+    if (!S.online) return Promise.resolve(null);
+    return api("/api/nodes/weights", { cache: "no-store" }, 4000).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (j) {
+      if (!j) return null;
+      UI.renderWeights(j.state);
+      S.weights = j.state;
+      return j.state;
+    }).catch(function () { return null; });
+  }
+
+  function refreshAll() {
+    if (!S.online) { autoConnect(); return Promise.resolve(null); }
+    return Promise.all([
+      api("/api/health", { cache: "no-store" }, 4000).then(function (r) { return r.ok ? r.json() : null; }),
+      refreshHil(), refreshModels(), refreshExperimentState(), refreshWeights()
+    ]).then(function (res) {
+      var h = res[0];
+      if (h && h.sim) {
+        UI.net(true, h.sim);
+        S.sim = h.sim;
+      }
+      if (S.hil && S.hil.health) {
+        UI.hilHint(S.hil.health.mode === "hil"
+          ? '硬件在环生效中：实测的 GPU 利用率 / 链路速率 / 时延正在<b>覆盖</b>仿真内部状态，调度决策基于真实世界。'
+          : (S.hil.health.mode === "shadow"
+            ? '影子模式：硬件数据仅用于「实测 vs 仿真」对照，<b>不影响</b>仿真。验证链路与量纲时先用这个模式。'
+            : '纯仿真模式：硬件只做登记与对照，不参与仿真；切到「硬件在环」即可让实测数据接管。'));
+      }
+      return loadLatestReport();
+    }).catch(function () { return null; });
+  }
+
+  /* ------------------------------------------------------------ 面板操作入口 */
+  window.Backend = {
+    refreshAll: refreshAll,
+    refreshHil: function () { refreshHil(); UI.toast("设备状态已刷新"); },
+    setHilMode: function (mode) {
+      if (!S.online) { UI.toast("切换在环模式需要连接后端", "warn"); return Promise.resolve(null); }
+      return api("/api/hw/mode", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: mode })
+      }, 5000).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (j && j.ok) { UI.toast("在环模式 → " + ({ off: "纯仿真", shadow: "影子模式", hil: "硬件在环" }[j.mode] || j.mode)); refreshAll(); }
+        else UI.toast("切换失败：" + ((j && j.error) || "未知错误"), "bad");
+        return j;
+      }).catch(function () { UI.toast("切换失败：后端不可达", "bad"); return null; });
+    },
+    setModel: function (id) {
+      if (!S.online) { UI.toast("切换模型需要连接后端", "warn"); return Promise.resolve(null); }
+      return api("/api/model", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: id })
+      }, 6000).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (j && j.ok) { UI.toast("已切换到 " + (j.model.short || id) + "（仿真已重置）"); refreshAll(); }
+        else UI.toast("切换失败：" + ((j && j.error) || "未知错误"), "bad");
+        return j;
+      }).catch(function () { UI.toast("切换失败：后端不可达", "bad"); return null; });
+    },
+    runExperiment: function (opts) {
+      if (!S.online) { UI.toast("批量实验需要连接后端", "warn"); return Promise.resolve(null); }
+      opts = opts || {};
+      var body = { async: true, durationMs: opts.durationMs || 120000 };
+      if (opts.scenes && opts.scenes.length) body.scenes = opts.scenes;
+      UI.expStatus({ running: true });
+      UI.toast("实验已提交，正在离线跑场景矩阵…");
+      return api("/api/experiment", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      }, 10000).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (!j || !j.ok) { UI.toast("提交失败：" + ((j && j.error) || "未知错误"), "bad"); UI.expStatus({ running: false }); return null; }
+        refreshExperimentState();
+        return j;
+      }).catch(function () { UI.toast("提交失败：后端不可达", "bad"); UI.expStatus({ running: false }); return null; });
+    },
+    openSchema: function () {
+      if (!S.online) { UI.toast("接口文档需要连接后端", "warn"); return; }
+      window.open(S.base + "/api/hw/schema", "_blank");
+    },
+    setWeights: function (weights, locks) {
+      if (!S.online) { UI.toast("设置先验偏置需要连接后端", "warn"); UI.resetWeightsUI(); return Promise.resolve(null); }
+      var body = { weights: weights };
+      if (locks) body.locks = locks;
+      return api("/api/nodes/weights", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      }, 6000).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (j && j.ok) {
+          UI.renderWeights(j.weights);
+          UI.toast("先验偏置已应用（权重仍由算法动态分配）");
+          refreshAll();
+        } else {
+          UI.toast("设置失败：" + ((j && j.error) || "未知错误"), "bad");
+          refreshWeights();
+        }
+        return j;
+      }).catch(function () { UI.toast("设置失败：后端不可达", "bad"); return null; });
+    },
+    resetWeights: function () {
+      if (!S.online) { UI.toast("清除偏置需要连接后端", "warn"); UI.resetWeightsUI(); return Promise.resolve(null); }
+      return api("/api/nodes/weights", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reset: true })
+      }, 6000).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (j && j.ok) { UI.renderWeights(j.weights); UI.toast("先验偏置已清除（权重完全由算法动态分配）"); }
+        return j;
+      }).catch(function () { return null; });
+    }
+  };
+
+  /* --------------------------------------------------- 控制指令双写（本地+后端） */
+  function bindControls() {
+    var el;
+    if ((el = $("scene"))) {
+      el.addEventListener("change", function (e) { post("scene", e.target.value); });
+    }
+    if ((el = $("rate"))) {
+      var t1 = null;
+      el.addEventListener("input", function (e) {
+        clearTimeout(t1);
+        var v = +e.target.value;
+        t1 = setTimeout(function () { post("rate", v); }, 150);
+      });
+    }
+    if ((el = $("speed"))) {
+      var t2 = null;
+      el.addEventListener("input", function () { clearTimeout(t2); t2 = setTimeout(function () { post("speed", simSpeed); }, 150); });
+    }
+    if ((el = $("btnPause"))) {
+      el.addEventListener("click", function () { post("pause", !!paused); });
+    }
+    if ((el = $("btnReset"))) {
+      el.addEventListener("click", function () { post("reset", 1); });
+    }
+    if ((el = $("btnAI"))) {
+      el.addEventListener("click", function () { post("view", viewMode); });
+    }
+  }
+
+  /* ------------------------------------------------------------------ 启动 */
+  buildBadge();
+  bindControls();
+  autoConnect();
+
+  // 离线时每 10s 重试一次（服务起来后自动接管）
+  setInterval(function () {
+    if (!S.online && !S.probe) autoConnect();
+  }, 10000);
+
+  // 暴露给控制台/外部脚本，便于调试与自动化
+  window.WorkBuddyBackend = {
+    state: S,
+    connect: function (base) { return probeBase(base || "").then(function (hit) { if (hit) connect(hit.base, hit.health); return !!hit; }); },
+    disconnect: function () { goOffline("手动断开"); },
+    snapshot: function () { return S.snap; },
+    control: post
+  };
+})();
+
+</script>
+</body>
+</html>

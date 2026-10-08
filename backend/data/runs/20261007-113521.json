@@ -1,0 +1,959 @@
+{
+ "id": "20261007-113521",
+ "label": "full-matrix",
+ "createdAt": "2026-10-07 11:35:21",
+ "protocol": {
+  "dtMs": 2.0,
+  "durationMs": 120000.0,
+  "seed": 20261006,
+  "scenes": [
+   "normal",
+   "vision",
+   "agv",
+   "llm",
+   "degrade",
+   "stress"
+  ]
+ },
+ "elapsedSec": 8.17,
+ "scenes": [
+  {
+   "scene": "normal",
+   "sceneLabel": "常规混线生产",
+   "rate": 11,
+   "ai": {
+    "n": 1318,
+    "t": 120000.0,
+    "avgLat": 136.02109256449134,
+    "p95": 409.0,
+    "missRate": 0.0,
+    "throughput": 12.0,
+    "gpu": 25.0,
+    "peakBw": 85.00000000000001,
+    "queue": 2,
+    "queuedTransfer": 1,
+    "queuedCompute": 1,
+    "energyPerTask": 35.81771471927201,
+    "carriedRate": 77.92109256449166,
+    "dist": {
+     "local": 291,
+     "edge": 810,
+     "cloud": 217
+    }
+   },
+   "bl": {
+    "n": 1318,
+    "t": 120000.0,
+    "avgLat": 135.38072837632743,
+    "p95": 399.0,
+    "missRate": 0.0,
+    "throughput": 12.0,
+    "gpu": 25.0,
+    "peakBw": 85.00000000000001,
+    "queue": 2,
+    "queuedTransfer": 1,
+    "queuedCompute": 1,
+    "energyPerTask": 35.81771471927201,
+    "carriedRate": 77.92109256449166,
+    "dist": {
+     "local": 291,
+     "edge": 810,
+     "cloud": 217
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": 0.47,
+     "better": false
+    },
+    "p95": {
+     "pct": 2.51,
+     "better": false
+    },
+    "missRate": null,
+    "energyPerTask": {
+     "pct": 0.0,
+     "better": false
+    },
+    "throughput": {
+     "pct": 0.0,
+     "better": false
+    },
+    "gpu": {
+     "pct": 0.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 291
+    },
+    {
+     "id": "edgeA",
+     "done": 408
+    },
+    {
+     "id": "edgeB",
+     "done": 402
+    },
+    {
+     "id": "cloud",
+     "done": 217
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "llm": {
+     "n": 217,
+     "lat": 76343.0,
+     "miss": 0,
+     "node": {
+      "cloud": 217
+     }
+    },
+    "vision": {
+     "n": 373,
+     "lat": 54252.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 208,
+      "edgeB": 165
+     }
+    },
+    "agv": {
+     "n": 256,
+     "lat": 24974.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 144,
+      "edgeA": 112
+     }
+    },
+    "maint": {
+     "n": 181,
+     "lat": 21146.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 93,
+      "edgeA": 88
+     }
+    },
+    "robot": {
+     "n": 291,
+     "lat": 2560.8000000000034,
+     "miss": 0,
+     "node": {
+      "local": 291
+     }
+    }
+   }
+  },
+  {
+   "scene": "vision",
+   "sceneLabel": "视觉质检高峰",
+   "rate": 18,
+   "ai": {
+    "n": 2156,
+    "t": 120000.0,
+    "avgLat": 275.64480519480514,
+    "p95": 724.0,
+    "missRate": 49.76808905380334,
+    "throughput": 20.0,
+    "gpu": 0.0,
+    "peakBw": 100.0,
+    "queue": 4,
+    "queuedTransfer": 4,
+    "queuedCompute": 0,
+    "energyPerTask": 19.357062152134024,
+    "carriedRate": 88.21892393320965,
+    "dist": {
+     "local": 254,
+     "edge": 1623,
+     "cloud": 279
+    }
+   },
+   "bl": {
+    "n": 2156,
+    "t": 120000.0,
+    "avgLat": 280.5543599257885,
+    "p95": 734.0,
+    "missRate": 51.53061224489795,
+    "throughput": 20.0,
+    "gpu": 0.0,
+    "peakBw": 100.0,
+    "queue": 4,
+    "queuedTransfer": 4,
+    "queuedCompute": 0,
+    "energyPerTask": 19.14746730055699,
+    "carriedRate": 88.21892393320965,
+    "dist": {
+     "local": 254,
+     "edge": 1714,
+     "cloud": 188
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -1.75,
+     "better": true
+    },
+    "p95": {
+     "pct": -1.36,
+     "better": true
+    },
+    "missRate": {
+     "pct": -3.42,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": 1.09,
+     "better": false
+    },
+    "throughput": {
+     "pct": 0.0,
+     "better": false
+    },
+    "gpu": null,
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 254
+    },
+    {
+     "id": "edgeA",
+     "done": 811
+    },
+    {
+     "id": "edgeB",
+     "done": 812
+    },
+    {
+     "id": "cloud",
+     "done": 279
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 1.0
+    },
+    {
+     "id": "access",
+     "util": 0.3
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "robot": {
+     "n": 254,
+     "lat": 2599.200000000003,
+     "miss": 0,
+     "node": {
+      "local": 254
+     }
+    },
+    "vision": {
+     "n": 1217,
+     "lat": 446053.0,
+     "miss": 933,
+     "node": {
+      "edgeA": 589,
+      "edgeB": 627,
+      "cloud": 1
+     }
+    },
+    "llm": {
+     "n": 188,
+     "lat": 74756.0,
+     "miss": 0,
+     "node": {
+      "cloud": 188
+     }
+    },
+    "agv": {
+     "n": 235,
+     "lat": 31186.0,
+     "miss": 140,
+     "node": {
+      "edgeA": 109,
+      "edgeB": 106,
+      "cloud": 20
+     }
+    },
+    "maint": {
+     "n": 262,
+     "lat": 39696.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 79,
+      "edgeA": 113,
+      "cloud": 70
+     }
+    }
+   }
+  },
+  {
+   "scene": "agv",
+   "sceneLabel": "AGV 潮汐调度",
+   "rate": 26,
+   "ai": {
+    "n": 3115,
+    "t": 120000.0,
+    "avgLat": 144.21335473515174,
+    "p95": 345.0,
+    "missRate": 13.739967897271269,
+    "throughput": 26.0,
+    "gpu": 50.0,
+    "peakBw": 100.0,
+    "queue": 5,
+    "queuedTransfer": 2,
+    "queuedCompute": 3,
+    "energyPerTask": 22.260364044943945,
+    "carriedRate": 89.5024077046549,
+    "dist": {
+     "local": 327,
+     "edge": 1989,
+     "cloud": 799
+    }
+   },
+   "bl": {
+    "n": 3115,
+    "t": 120000.0,
+    "avgLat": 181.86857142857102,
+    "p95": 425.0,
+    "missRate": 43.69181380417336,
+    "throughput": 28.0,
+    "gpu": 50.0,
+    "peakBw": 100.0,
+    "queue": 5,
+    "queuedTransfer": 2,
+    "queuedCompute": 3,
+    "energyPerTask": 21.568889566613297,
+    "carriedRate": 89.5024077046549,
+    "dist": {
+     "local": 327,
+     "edge": 2481,
+     "cloud": 307
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -20.7,
+     "better": true
+    },
+    "p95": {
+     "pct": -18.82,
+     "better": true
+    },
+    "missRate": {
+     "pct": -68.55,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": 3.21,
+     "better": false
+    },
+    "throughput": {
+     "pct": -7.14,
+     "better": false
+    },
+    "gpu": {
+     "pct": 0.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 327
+    },
+    {
+     "id": "edgeA",
+     "done": 995
+    },
+    {
+     "id": "edgeB",
+     "done": 994
+    },
+    {
+     "id": "cloud",
+     "done": 799
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 1.0
+    },
+    {
+     "id": "access",
+     "util": 0.3
+    },
+    {
+     "id": "backhaul",
+     "util": 0.24
+    }
+   ],
+   "types": {
+    "agv": {
+     "n": 1645,
+     "lat": 164319.0,
+     "miss": 186,
+     "node": {
+      "edgeB": 583,
+      "edgeA": 619,
+      "cloud": 443
+     }
+    },
+    "llm": {
+     "n": 307,
+     "lat": 130695.0,
+     "miss": 2,
+     "node": {
+      "cloud": 307
+     }
+    },
+    "vision": {
+     "n": 473,
+     "lat": 102414.0,
+     "miss": 240,
+     "node": {
+      "edgeA": 247,
+      "edgeB": 222,
+      "cloud": 4
+     }
+    },
+    "robot": {
+     "n": 327,
+     "lat": 2931.600000000011,
+     "miss": 0,
+     "node": {
+      "local": 327
+     }
+    },
+    "maint": {
+     "n": 363,
+     "lat": 48865.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 189,
+      "edgeA": 129,
+      "cloud": 45
+     }
+    }
+   }
+  },
+  {
+   "scene": "llm",
+   "sceneLabel": "大模型突发推理",
+   "rate": 10,
+   "ai": {
+    "n": 1194,
+    "t": 120000.0,
+    "avgLat": 1143.0018425460678,
+    "p95": 3527.0,
+    "missRate": 34.7571189279732,
+    "throughput": 11.0,
+    "gpu": 50.0,
+    "peakBw": 85.00000000000001,
+    "queue": 6,
+    "queuedTransfer": 1,
+    "queuedCompute": 5,
+    "energyPerTask": 104.61621314907838,
+    "carriedRate": 85.00837520938023,
+    "dist": {
+     "local": 179,
+     "edge": 438,
+     "cloud": 577
+    }
+   },
+   "bl": {
+    "n": 1194,
+    "t": 120000.0,
+    "avgLat": 1148.4005025125668,
+    "p95": 3527.0,
+    "missRate": 35.845896147403685,
+    "throughput": 11.0,
+    "gpu": 50.0,
+    "peakBw": 85.00000000000001,
+    "queue": 6,
+    "queuedTransfer": 1,
+    "queuedCompute": 5,
+    "energyPerTask": 104.61621314907838,
+    "carriedRate": 85.00837520938023,
+    "dist": {
+     "local": 179,
+     "edge": 438,
+     "cloud": 577
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -0.47,
+     "better": true
+    },
+    "p95": {
+     "pct": 0.0,
+     "better": false
+    },
+    "missRate": {
+     "pct": -3.04,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": 0.0,
+     "better": false
+    },
+    "throughput": {
+     "pct": 0.0,
+     "better": false
+    },
+    "gpu": {
+     "pct": 0.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 179
+    },
+    {
+     "id": "edgeA",
+     "done": 220
+    },
+    {
+     "id": "edgeB",
+     "done": 218
+    },
+    {
+     "id": "cloud",
+     "done": 577
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.408
+    }
+   ],
+   "types": {
+    "llm": {
+     "n": 577,
+     "lat": 1311481.0,
+     "miss": 415,
+     "node": {
+      "cloud": 577
+     }
+    },
+    "vision": {
+     "n": 160,
+     "lat": 22400.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 86,
+      "edgeB": 74
+     }
+    },
+    "maint": {
+     "n": 130,
+     "lat": 15080.0,
+     "miss": 0,
+     "node": {
+      "edgeA": 66,
+      "edgeB": 64
+     }
+    },
+    "robot": {
+     "n": 179,
+     "lat": 1575.199999999995,
+     "miss": 0,
+     "node": {
+      "local": 179
+     }
+    },
+    "agv": {
+     "n": 148,
+     "lat": 14208.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 80,
+      "edgeA": 68
+     }
+    }
+   }
+  },
+  {
+   "scene": "degrade",
+   "sceneLabel": "回传网络降级",
+   "rate": 18,
+   "ai": {
+    "n": 2157,
+    "t": 120000.0,
+    "avgLat": 190.72146499768053,
+    "p95": 511.0,
+    "missRate": 13.444598980064907,
+    "throughput": 19.0,
+    "gpu": 50.0,
+    "peakBw": 85.00000000000001,
+    "queue": 3,
+    "queuedTransfer": 1,
+    "queuedCompute": 2,
+    "energyPerTask": 38.2323064441357,
+    "carriedRate": 81.27028280018544,
+    "dist": {
+     "local": 404,
+     "edge": 1320,
+     "cloud": 433
+    }
+   },
+   "bl": {
+    "n": 2157,
+    "t": 120000.0,
+    "avgLat": 191.57774687065225,
+    "p95": 509.0,
+    "missRate": 13.351877607788595,
+    "throughput": 18.0,
+    "gpu": 50.0,
+    "peakBw": 85.00000000000001,
+    "queue": 3,
+    "queuedTransfer": 1,
+    "queuedCompute": 2,
+    "energyPerTask": 38.117794853964185,
+    "carriedRate": 81.27028280018544,
+    "dist": {
+     "local": 404,
+     "edge": 1375,
+     "cloud": 378
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -0.45,
+     "better": true
+    },
+    "p95": {
+     "pct": 0.39,
+     "better": false
+    },
+    "missRate": {
+     "pct": 0.69,
+     "better": false
+    },
+    "energyPerTask": {
+     "pct": 0.3,
+     "better": false
+    },
+    "throughput": {
+     "pct": 5.56,
+     "better": true
+    },
+    "gpu": {
+     "pct": 0.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": 0.0,
+     "better": false
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 404
+    },
+    {
+     "id": "edgeA",
+     "done": 656
+    },
+    {
+     "id": "edgeB",
+     "done": 664
+    },
+    {
+     "id": "cloud",
+     "done": 433
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 0.85
+    },
+    {
+     "id": "access",
+     "util": 0.255
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0
+    }
+   ],
+   "types": {
+    "vision": {
+     "n": 651,
+     "lat": 122135.0,
+     "miss": 181,
+     "node": {
+      "edgeA": 325,
+      "edgeB": 325,
+      "cloud": 1
+     }
+    },
+    "agv": {
+     "n": 417,
+     "lat": 44129.0,
+     "miss": 94,
+     "node": {
+      "edgeB": 193,
+      "edgeA": 183,
+      "cloud": 41
+     }
+    },
+    "llm": {
+     "n": 378,
+     "lat": 202190.0,
+     "miss": 15,
+     "node": {
+      "cloud": 378
+     }
+    },
+    "maint": {
+     "n": 307,
+     "lat": 39297.0,
+     "miss": 0,
+     "node": {
+      "edgeB": 146,
+      "edgeA": 148,
+      "cloud": 13
+     }
+    },
+    "robot": {
+     "n": 404,
+     "lat": 3635.200000000025,
+     "miss": 0,
+     "node": {
+      "local": 404
+     }
+    }
+   }
+  },
+  {
+   "scene": "stress",
+   "sceneLabel": "极限压力测试",
+   "rate": 24,
+   "ai": {
+    "n": 2860,
+    "t": 120000.0,
+    "avgLat": 735.8297202797236,
+    "p95": 3684.0,
+    "missRate": 58.6013986013986,
+    "throughput": 14.0,
+    "gpu": 50.0,
+    "peakBw": 99.99999999999996,
+    "queue": 20,
+    "queuedTransfer": 15,
+    "queuedCompute": 5,
+    "energyPerTask": 31.935069143356984,
+    "carriedRate": 81.99300699300699,
+    "dist": {
+     "local": 515,
+     "edge": 1744,
+     "cloud": 601
+    }
+   },
+   "bl": {
+    "n": 2861,
+    "t": 120000.0,
+    "avgLat": 735.9747640685102,
+    "p95": 3734.0,
+    "missRate": 61.69171618315274,
+    "throughput": 16.0,
+    "gpu": 25.0,
+    "peakBw": 100,
+    "queue": 19,
+    "queuedTransfer": 15,
+    "queuedCompute": 4,
+    "energyPerTask": 31.60793358965417,
+    "carriedRate": 83.18769660957706,
+    "dist": {
+     "local": 481,
+     "edge": 1965,
+     "cloud": 415
+    }
+   },
+   "delta": {
+    "avgLat": {
+     "pct": -0.02,
+     "better": true
+    },
+    "p95": {
+     "pct": -1.34,
+     "better": true
+    },
+    "missRate": {
+     "pct": -5.01,
+     "better": true
+    },
+    "energyPerTask": {
+     "pct": 1.03,
+     "better": false
+    },
+    "throughput": {
+     "pct": -12.5,
+     "better": false
+    },
+    "gpu": {
+     "pct": 100.0,
+     "better": false
+    },
+    "peakBw": {
+     "pct": -0.0,
+     "better": true
+    }
+   },
+   "nodes": [
+    {
+     "id": "local",
+     "done": 515
+    },
+    {
+     "id": "edgeA",
+     "done": 859
+    },
+    {
+     "id": "edgeB",
+     "done": 885
+    },
+    {
+     "id": "cloud",
+     "done": 601
+    }
+   ],
+   "links": [
+    {
+     "id": "field",
+     "util": 1.0
+    },
+    {
+     "id": "access",
+     "util": 0.2833
+    },
+    {
+     "id": "backhaul",
+     "util": 0.0585
+    }
+   ],
+   "types": {
+    "agv": {
+     "n": 592,
+     "lat": 133944.0,
+     "miss": 467,
+     "node": {
+      "edgeB": 278,
+      "cloud": 60,
+      "edgeA": 254
+     }
+    },
+    "llm": {
+     "n": 415,
+     "lat": 381841.0,
+     "miss": 111,
+     "node": {
+      "cloud": 415
+     }
+    },
+    "vision": {
+     "n": 983,
+     "lat": 1435919.2000000002,
+     "miss": 947,
+     "node": {
+      "edgeA": 488,
+      "edgeB": 481,
+      "local": 4,
+      "cloud": 10
+     }
+    },
+    "maint": {
+     "n": 389,
+     "lat": 145212.80000000008,
+     "miss": 19,
+     "node": {
+      "edgeB": 103,
+      "edgeA": 99,
+      "cloud": 116,
+      "local": 71
+     }
+    },
+    "robot": {
+     "n": 481,
+     "lat": 7556.000000000041,
+     "miss": 132,
+     "node": {
+      "local": 440,
+      "edgeB": 23,
+      "edgeA": 18
+     }
+    }
+   }
+  }
+ ],
+ "summary": {
+  "avgPct": {
+   "avgLat": -3.82,
+   "p95": -3.1,
+   "missRate": -15.87,
+   "energyPerTask": 0.94
+  },
+  "wins": {
+   "avgLat": 5,
+   "p95": 3,
+   "missRate": 4,
+   "energyPerTask": 0
+  },
+  "totalScenes": 6
+ },
+ "report": "# 工业智算网 · 通算协同调度仿真 批量实验结果\n# 协议: 子步长 2.00ms / 每场景 120000ms 仿真时间 / 固定种子 20261006 / 双轨同任务流\n# 说明: 「AI」= AI 通算协同调度, 「基线」= 静态规则映射 + 等权均分带宽\n\n===== normal =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  1318   136.0   409    0.0    25      85  35.8177    291|810|217     2 11/12\n基线   :  1318   135.4   399    0.0    25      85  35.8177    291|810|217     2 11/12\n节点 AI: local:291 edgeA:408 edgeB:402 cloud:217   链路: field:85 access:26 backhaul:0\n节点 基: local:291 edgeA:405 edgeB:405 cloud:217   链路: field:85 access:26 backhaul:0\n  vision AI n= 373 时延    145 超时  0% {\"edgeA\":208,\"edgeB\":165}\n       基 n= 373 时延    145 超时  0% {\"edgeA\":174,\"edgeB\":199}\n  robot  AI n= 291 时延      9 超时  0% {\"local\":291}\n       基 n= 291 时延      9 超时  0% {\"local\":291}\n  agv    AI n= 256 时延     98 超时  0% {\"edgeB\":144,\"edgeA\":112}\n       基 n= 256 时延     98 超时  0% {\"edgeB\":113,\"edgeA\":143}\n  llm    AI n= 217 时延    352 超时  0% {\"cloud\":217}\n       基 n= 217 时延    348 超时  0% {\"cloud\":217}\n  maint  AI n= 181 时延    117 超时  0% {\"edgeB\":93,\"edgeA\":88}\n       基 n= 181 时延    117 超时  0% {\"edgeB\":93,\"edgeA\":88}\n积压轨迹: 0 2 2 1 1 2 1 2 3 1 2 3\n\n===== vision =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  2156   275.6   724   49.8     0     100  19.3571    254|1623|279     4 18/20\n基线   :  2156   280.6   734   51.5     0     100  19.1475    254|1714|188     4 18/20\n节点 AI: local:254 edgeA:811 edgeB:812 cloud:279   链路: field:100 access:30 backhaul:0\n节点 基: local:254 edgeA:857 edgeB:857 cloud:188   链路: field:100 access:30 backhaul:0\n  vision AI n=1217 时延    367 超时 77% {\"edgeA\":589,\"edgeB\":627,\"cloud\":1}\n       基 n=1217 时延    369 超时 78% {\"edgeA\":609,\"edgeB\":608}\n  robot  AI n= 254 时延     10 超时  0% {\"local\":254}\n       基 n= 254 时延     11 超时  0% {\"local\":254}\n  agv    AI n= 235 时延    133 超时 60% {\"edgeA\":109,\"edgeB\":106,\"cloud\":20}\n       基 n= 235 时延    142 超时 70% {\"edgeA\":115,\"edgeB\":120}\n  llm    AI n= 188 时延    398 超时  0% {\"cloud\":188}\n       基 n= 188 时延    388 超时  0% {\"cloud\":188}\n  maint  AI n= 262 时延    152 超时  0% {\"edgeB\":79,\"edgeA\":113,\"cloud\":70}\n       基 n= 262 时延    178 超时  0% {\"edgeB\":129,\"edgeA\":133}\n积压轨迹: 0 4 15 3 6 7 3 5 1 4 7 4\n\n===== agv =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  3115   144.2   345   13.7    50     100  22.2604    327|1989|799     5 26/26\n基线   :  3115   181.9   425   43.7    50     100  21.5689    327|2481|307     5 26/28\n节点 AI: local:327 edgeA:995 edgeB:994 cloud:799   链路: field:100 access:30 backhaul:24\n节点 基: local:327 edgeA:1241 edgeB:1240 cloud:307   链路: field:100 access:30 backhaul:0\n  vision AI n= 473 时延    217 超时 51% {\"edgeA\":247,\"edgeB\":222,\"cloud\":4}\n       基 n= 473 时延    239 超时 68% {\"edgeA\":254,\"edgeB\":219}\n  robot  AI n= 327 时延      9 超时  0% {\"local\":327}\n       基 n= 327 时延      9 超时  0% {\"local\":327}\n  agv    AI n=1645 时延    100 超时 11% {\"edgeB\":583,\"edgeA\":619,\"cloud\":443}\n       基 n=1645 时延    145 超时 63% {\"edgeB\":829,\"edgeA\":816}\n  llm    AI n= 307 时延    426 超时  1% {\"cloud\":307}\n       基 n= 307 时延    414 超时  1% {\"cloud\":307}\n  maint  AI n= 363 时延    135 超时  0% {\"edgeB\":189,\"edgeA\":129,\"cloud\":45}\n       基 n= 363 时延    231 超时  0% {\"edgeB\":192,\"edgeA\":171}\n积压轨迹: 0 3 5 3 2 4 4 3 5 3 3 5\n\n===== llm =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  1194  1143.0  3527   34.8    50      85 104.6162    179|438|577     6 10/11\n基线   :  1194  1148.4  3527   35.8    50      85 104.6162    179|438|577     6 10/11\n节点 AI: local:179 edgeA:220 edgeB:218 cloud:577   链路: field:85 access:26 backhaul:41\n节点 基: local:179 edgeA:219 edgeB:219 cloud:577   链路: field:85 access:26 backhaul:41\n  vision AI n= 160 时延    140 超时  0% {\"edgeA\":86,\"edgeB\":74}\n       基 n= 160 时延    140 超时  0% {\"edgeA\":81,\"edgeB\":79}\n  robot  AI n= 179 时延      9 超时  0% {\"local\":179}\n       基 n= 179 时延      9 超时  0% {\"local\":179}\n  agv    AI n= 148 时延     96 超时  0% {\"edgeB\":80,\"edgeA\":68}\n       基 n= 148 时延     96 超时  0% {\"edgeB\":73,\"edgeA\":75}\n  llm    AI n= 577 时延   2273 超时 72% {\"cloud\":577}\n       基 n= 577 时延   2284 超时 74% {\"cloud\":577}\n  maint  AI n= 130 时延    116 超时  0% {\"edgeA\":66,\"edgeB\":64}\n       基 n= 130 时延    116 超时  0% {\"edgeA\":63,\"edgeB\":67}\n积压轨迹: 0 3 8 23 18 25 9 10 5 11 17 12\n\n===== degrade =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  2157   190.7   511   13.4    50      85  38.2323    404|1320|433     3 18/19\n基线   :  2157   191.6   509   13.4    50      85  38.1178    404|1375|378     3 18/18\n节点 AI: local:404 edgeA:656 edgeB:664 cloud:433   链路: field:85 access:26 backhaul:0\n节点 基: local:404 edgeA:688 edgeB:687 cloud:378   链路: field:85 access:26 backhaul:0\n  vision AI n= 651 时延    188 超时 28% {\"edgeA\":325,\"edgeB\":325,\"cloud\":1}\n       基 n= 651 时延    189 超时 28% {\"edgeA\":331,\"edgeB\":320}\n  robot  AI n= 404 时延      9 超时  0% {\"local\":404}\n       基 n= 404 时延      9 超时  0% {\"local\":404}\n  agv    AI n= 417 时延    106 超时 23% {\"edgeB\":193,\"edgeA\":183,\"cloud\":41}\n       基 n= 417 时延    109 超时 22% {\"edgeB\":216,\"edgeA\":201}\n  llm    AI n= 378 时延    535 超时  4% {\"cloud\":378}\n       基 n= 378 时延    533 超时  4% {\"cloud\":378}\n  maint  AI n= 307 时延    128 超时  0% {\"edgeB\":146,\"edgeA\":148,\"cloud\":13}\n       基 n= 307 时延    130 超时  0% {\"edgeB\":151,\"edgeA\":156}\n积压轨迹: 0 2 2 6 3 5 3 2 2 3 3 3\n\n===== stress =====\n        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐\nAI   :  2860   735.8  3684   58.6    50     100  31.9351    515|1744|601    20 24/14\n基线   :  2861   736.0  3734   61.7    25     100  31.6079    481|1965|415    19 24/16\n节点 AI: local:515 edgeA:859 edgeB:885 cloud:601   链路: field:100 access:28 backhaul:6\n节点 基: local:481 edgeA:983 edgeB:982 cloud:415   链路: field:100 access:28 backhaul:7\n  vision AI n= 983 时延   1461 超时 96% {\"edgeA\":488,\"edgeB\":481,\"local\":4,\"cloud\":10}\n       基 n= 983 时延   1471 超时 97% {\"edgeA\":490,\"edgeB\":493}\n  robot  AI n= 481 时延     16 超时 27% {\"local\":440,\"edgeB\":23,\"edgeA\":18}\n       基 n= 481 时延     18 超时 37% {\"local\":481}\n  agv    AI n= 592 时延    226 超时 79% {\"edgeB\":278,\"cloud\":60,\"edgeA\":254}\n       基 n= 592 时延    254 超时 88% {\"edgeB\":290,\"edgeA\":302}\n  llm    AI n= 415 时延    920 超时 27% {\"cloud\":415}\n       基 n= 415 时延    867 超时 25% {\"cloud\":415}\n  maint  AI n= 389 时延    373 超时  5% {\"edgeB\":103,\"edgeA\":99,\"cloud\":116,\"local\":71}\n       基 n= 390 时延    360 超时  1% {\"edgeB\":199,\"edgeA\":191}\n积压轨迹: 0 12 5 14 10 8 4 19 47 26 32 19\n\nDONE\n"
+}

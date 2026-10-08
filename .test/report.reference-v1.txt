@@ -1,0 +1,110 @@
+
+===== normal =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI  :  1318    136.0   409    0.0    25       85  35.8177     291|810|217    2 11/12
+基线:    1318    135.4   399    0.0    25       85  35.8177     291|810|217    2 11/12
+节点 AI: local:0 edgeA:0 edgeB:0 cloud:100   链路: fiel:85 acce:26 back:0
+节点 基: local:0 edgeA:0 edgeB:0 cloud:100   链路: fiel:85 acce:26 back:0
+  vision AI n= 373 时延   145 超时  0% {"edgeA":208,"edgeB":165}
+         基 n= 373 时延   145 超时  0% {"edgeA":174,"edgeB":199}
+  robot  AI n= 291 时延     9 超时  0% {"local":291}
+         基 n= 291 时延     9 超时  0% {"local":291}
+  agv    AI n= 256 时延    98 超时  0% {"edgeB":144,"edgeA":112}
+         基 n= 256 时延    98 超时  0% {"edgeB":113,"edgeA":143}
+  llm    AI n= 217 时延   352 超时  0% {"cloud":217}
+         基 n= 217 时延   348 超时  0% {"cloud":217}
+  maint  AI n= 181 时延   117 超时  0% {"edgeB":93,"edgeA":88}
+         基 n= 181 时延   117 超时  0% {"edgeB":93,"edgeA":88}
+积压轨迹: 0 2 2 1 1 2 1 2 3 1 2 3
+
+===== vision =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI  :  2156    275.6   724   49.8     0      100  19.3571    254|1623|279    4 18/20
+基线:    2156    280.6   734   51.5     0      100  19.1475    254|1714|188    4 18/20
+节点 AI: local:0 edgeA:0 edgeB:0 cloud:0   链路: fiel:100 acce:30 back:0
+节点 基: local:0 edgeA:0 edgeB:0 cloud:0   链路: fiel:100 acce:30 back:0
+  vision AI n=1217 时延   367 超时 77% {"edgeA":589,"edgeB":627,"cloud":1}
+         基 n=1217 时延   369 超时 78% {"edgeA":609,"edgeB":608}
+  robot  AI n= 254 时延    10 超时  0% {"local":254}
+         基 n= 254 时延    11 超时  0% {"local":254}
+  agv    AI n= 235 时延   133 超时 60% {"edgeA":109,"edgeB":106,"cloud":20}
+         基 n= 235 时延   142 超时 70% {"edgeA":115,"edgeB":120}
+  llm    AI n= 188 时延   398 超时  0% {"cloud":188}
+         基 n= 188 时延   388 超时  0% {"cloud":188}
+  maint  AI n= 262 时延   152 超时  0% {"edgeB":79,"edgeA":113,"cloud":70}
+         基 n= 262 时延   178 超时  0% {"edgeB":129,"edgeA":133}
+积压轨迹: 0 4 15 3 6 7 3 5 1 4 7 4
+
+===== agv =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI  :  3115    144.2   345   13.7    50      100  22.2604    327|1989|799    5 26/26
+基线:    3115    181.9   425   43.7    50      100  21.5689    327|2481|307    5 26/28
+节点 AI: local:0 edgeA:100 edgeB:100 cloud:0   链路: fiel:100 acce:30 back:24
+节点 基: local:0 edgeA:100 edgeB:100 cloud:0   链路: fiel:100 acce:30 back:0
+  vision AI n= 473 时延   217 超时 51% {"edgeA":247,"edgeB":222,"cloud":4}
+         基 n= 473 时延   239 超时 68% {"edgeA":254,"edgeB":219}
+  robot  AI n= 327 时延     9 超时  0% {"local":327}
+         基 n= 327 时延     9 超时  0% {"local":327}
+  agv    AI n=1645 时延   100 超时 11% {"edgeB":583,"edgeA":619,"cloud":443}
+         基 n=1645 时延   145 超时 63% {"edgeB":829,"edgeA":816}
+  llm    AI n= 307 时延   426 超时  1% {"cloud":307}
+         基 n= 307 时延   414 超时  1% {"cloud":307}
+  maint  AI n= 363 时延   135 超时  0% {"edgeB":189,"edgeA":129,"cloud":45}
+         基 n= 363 时延   231 超时  0% {"edgeB":192,"edgeA":171}
+积压轨迹: 0 3 5 3 2 4 4 3 5 3 3 5
+
+===== llm =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI  :  1194   1143.0  3527   34.8    50       85 104.6162     179|438|577    6 10/11
+基线:    1194   1148.4  3527   35.8    50       85 104.6162     179|438|577    6 10/11
+节点 AI: local:0 edgeA:0 edgeB:100 cloud:100   链路: fiel:85 acce:26 back:41
+节点 基: local:0 edgeA:100 edgeB:0 cloud:100   链路: fiel:85 acce:26 back:41
+  vision AI n= 160 时延   140 超时  0% {"edgeA":86,"edgeB":74}
+         基 n= 160 时延   140 超时  0% {"edgeA":81,"edgeB":79}
+  robot  AI n= 179 时延     9 超时  0% {"local":179}
+         基 n= 179 时延     9 超时  0% {"local":179}
+  agv    AI n= 148 时延    96 超时  0% {"edgeB":80,"edgeA":68}
+         基 n= 148 时延    96 超时  0% {"edgeB":73,"edgeA":75}
+  llm    AI n= 577 时延  2273 超时 72% {"cloud":577}
+         基 n= 577 时延  2284 超时 74% {"cloud":577}
+  maint  AI n= 130 时延   116 超时  0% {"edgeA":66,"edgeB":64}
+         基 n= 130 时延   116 超时  0% {"edgeA":63,"edgeB":67}
+积压轨迹: 0 3 8 23 18 25 9 10 5 11 17 12
+
+===== degrade =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI  :  2157    190.7   511   13.4    50       85  38.2323    404|1320|433    3 18/19
+基线:    2157    191.6   509   13.4    50       85  38.1178    404|1375|378    3 18/18
+节点 AI: local:0 edgeA:100 edgeB:100 cloud:0   链路: fiel:85 acce:26 back:0
+节点 基: local:0 edgeA:100 edgeB:100 cloud:0   链路: fiel:85 acce:26 back:0
+  vision AI n= 651 时延   188 超时 28% {"edgeA":325,"edgeB":325,"cloud":1}
+         基 n= 651 时延   189 超时 28% {"edgeA":331,"edgeB":320}
+  robot  AI n= 404 时延     9 超时  0% {"local":404}
+         基 n= 404 时延     9 超时  0% {"local":404}
+  agv    AI n= 417 时延   106 超时 23% {"edgeB":193,"edgeA":183,"cloud":41}
+         基 n= 417 时延   109 超时 22% {"edgeB":216,"edgeA":201}
+  llm    AI n= 378 时延   535 超时  4% {"cloud":378}
+         基 n= 378 时延   533 超时  4% {"cloud":378}
+  maint  AI n= 307 时延   128 超时  0% {"edgeB":146,"edgeA":148,"cloud":13}
+         基 n= 307 时延   130 超时  0% {"edgeB":151,"edgeA":156}
+积压轨迹: 0 2 2 6 3 5 3 2 2 3 3 3
+
+===== stress =====
+        n     均时延   P95   超时%  GPU%  峰值BW%  单位能耗   本地|边缘|云端  积压 到达/吞吐
+AI  :  2860    735.8  3684   58.6    50      100  31.9351    515|1744|601   20 24/14
+基线:    2861    736.0  3734   61.7    25      100  31.6079    481|1965|415   19 24/16
+节点 AI: local:100 edgeA:0 edgeB:0 cloud:100   链路: fiel:100 acce:28 back:6
+节点 基: local:0 edgeA:0 edgeB:0 cloud:100   链路: fiel:100 acce:28 back:7
+  vision AI n= 983 时延  1461 超时 96% {"edgeA":488,"edgeB":481,"local":4,"cloud":10}
+         基 n= 983 时延  1471 超时 97% {"edgeA":490,"edgeB":493}
+  robot  AI n= 481 时延    16 超时 27% {"local":440,"edgeB":23,"edgeA":18}
+         基 n= 481 时延    18 超时 37% {"local":481}
+  agv    AI n= 592 时延   226 超时 79% {"edgeB":278,"cloud":60,"edgeA":254}
+         基 n= 592 时延   254 超时 88% {"edgeB":290,"edgeA":302}
+  llm    AI n= 415 时延   920 超时 27% {"cloud":415}
+         基 n= 415 时延   867 超时 25% {"cloud":415}
+  maint  AI n= 389 时延   373 超时  5% {"edgeB":103,"edgeA":99,"cloud":116,"local":71}
+         基 n= 390 时延   360 超时  1% {"edgeB":199,"edgeA":191}
+积压轨迹: 0 12 5 14 10 8 4 19 47 26 32 19
+
+DONE
